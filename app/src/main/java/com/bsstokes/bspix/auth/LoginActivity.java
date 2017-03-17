@@ -6,18 +6,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.R;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import okhttp3.HttpUrl;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginController.View {
 
+    @BindView(R.id.web_view) WebView webView;
     @Inject Account account;
+    private LoginController loginController;
 
     @NonNull
     public static Intent createIntent(@NonNull Context context) {
@@ -30,11 +35,20 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
         BsPixApplication.getBsPixApplication(this).getAppComponent().inject(this);
+
+        webView.setWebViewClient(new WebViewClient());
+
+        loginController = new LoginController(this);
     }
 
-    @OnClick(R.id.log_in_button)
-    void onClickLogInButton() {
-        account.logIn("access-token");
-        finish();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginController.start();
+    }
+
+    @Override
+    public void loadUrl(@NonNull HttpUrl authorizeUrl) {
+        webView.loadUrl(authorizeUrl.toString());
     }
 }

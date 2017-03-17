@@ -1,5 +1,7 @@
 package com.bsstokes.bspix.auth;
 
+import android.support.annotation.NonNull;
+
 import com.bsstokes.bspix.api.InstagramApi;
 
 import okhttp3.HttpUrl;
@@ -7,7 +9,7 @@ import okhttp3.HttpUrl;
 class LoginController {
 
     public interface View {
-        void loadUrl(HttpUrl authorizeUrl);
+        void loadUrl(@NonNull HttpUrl authorizeUrl);
     }
 
     private final View view;
