@@ -54,3 +54,6 @@ Thumbs.db
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
+
+# Fabric
+fabric.properties

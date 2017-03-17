@@ -5,7 +5,10 @@ import android.app.Application;
 import com.bsstokes.bspix.di.AppComponent;
 import com.bsstokes.bspix.di.ComponentFactory;
 import com.bsstokes.bspix.initializers.StethoInitializer;
+import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
+
+import io.fabric.sdk.android.Fabric;
 
 public class BsPixApplication extends Application {
 
@@ -19,6 +22,8 @@ public class BsPixApplication extends Application {
             return;
         }
         LeakCanary.install(this);
+
+        Fabric.with(this, new Crashlytics());
 
         appComponent = ComponentFactory.create(this);
 
