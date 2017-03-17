@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.R;
 
 import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,14 +28,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        ButterKnife.bind(this);
         BsPixApplication.getBsPixApplication(this).getAppComponent().inject(this);
+    }
 
-        findViewById(R.id.log_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                account.logIn("access-token");
-                finish();
-            }
-        });
+    @OnClick(R.id.log_in_button)
+    void onClickLogInButton() {
+        account.logIn("access-token");
+        finish();
     }
 }
