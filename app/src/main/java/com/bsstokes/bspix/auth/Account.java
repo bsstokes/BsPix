@@ -21,7 +21,7 @@ public class Account {
         bsPixSettings.setAccessToken(accessToken);
     }
 
-    void logOut() {
+    public void logOut() {
         bsPixSettings.setAccessToken(null);
     }
 }

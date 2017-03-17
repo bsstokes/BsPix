@@ -28,7 +28,7 @@ class AppModule {
     @Provides
     @Singleton
     BsPixSettings provideBsPixSettings() {
-        return new SharedPreferenceSettings();
+        return new SharedPreferenceSettings(application.getApplicationContext());
     }
 
     @Provides
