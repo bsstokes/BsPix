@@ -2,6 +2,8 @@ package com.bsstokes.bspix.di;
 
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
+import com.bsstokes.bspix.settings.BsPixSettings;
+import com.bsstokes.bspix.settings.SharedPreferenceSettings;
 
 import javax.inject.Singleton;
 
@@ -25,7 +27,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    Account provideAccount() {
-        return new Account();
+    BsPixSettings provideBsPixSettings() {
+        return new SharedPreferenceSettings();
+    }
+
+    @Provides
+    @Singleton
+    Account provideAccount(BsPixSettings bsPixSettings) {
+        return new Account(bsPixSettings);
     }
 }
