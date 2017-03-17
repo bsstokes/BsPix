@@ -2,11 +2,11 @@ package com.bsstokes.bspix.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.auth.LoginActivity;
+import com.bsstokes.bspix.home.HomeActivity;
 
 import javax.inject.Inject;
 
@@ -36,6 +36,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void launchHomeActivity() {
-        Log.d("MainActivity", "launchHomeActivity");
+        startActivity(HomeActivity.createIntent(this));
     }
 }
