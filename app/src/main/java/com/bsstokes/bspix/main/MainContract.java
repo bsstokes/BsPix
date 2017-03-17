@@ -9,7 +9,5 @@ interface MainContract {
 
     interface Controller {
         void start();
-
-        void stop();
     }
 }

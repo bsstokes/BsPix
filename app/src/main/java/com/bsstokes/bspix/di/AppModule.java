@@ -1,6 +1,7 @@
 package com.bsstokes.bspix.di;
 
 import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.auth.Account;
 
 import javax.inject.Singleton;
 
@@ -20,5 +21,11 @@ class AppModule {
     @Singleton
     BsPixApplication provideApplication() {
         return application;
+    }
+
+    @Provides
+    @Singleton
+    Account provideAccount() {
+        return new Account();
     }
 }

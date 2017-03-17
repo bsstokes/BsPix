@@ -1,6 +1,8 @@
 package com.bsstokes.bspix;
 
+import android.app.Activity;
 import android.app.Application;
+import android.support.annotation.NonNull;
 
 import com.bsstokes.bspix.di.AppComponent;
 import com.bsstokes.bspix.di.ComponentFactory;
@@ -13,6 +15,11 @@ import io.fabric.sdk.android.Fabric;
 public class BsPixApplication extends Application {
 
     private AppComponent appComponent;
+
+    @NonNull
+    public static BsPixApplication getBsPixApplication(@NonNull Activity activity) {
+        return (BsPixApplication) activity.getApplication();
+    }
 
     @Override
     public void onCreate() {
@@ -28,5 +35,10 @@ public class BsPixApplication extends Application {
         appComponent = ComponentFactory.create(this);
 
         StethoInitializer.initialize(this);
+    }
+
+    @NonNull
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 }

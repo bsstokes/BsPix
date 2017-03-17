@@ -22,8 +22,4 @@ class MainController implements MainContract.Controller {
             view.launchLoginActivity();
         }
     }
-
-    @Override
-    public void stop() {
-    }
 }
