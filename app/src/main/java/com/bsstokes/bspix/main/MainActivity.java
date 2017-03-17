@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
+import com.bsstokes.bspix.auth.LoginActivity;
 
 import javax.inject.Inject;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void launchLoginActivity() {
-        Log.d("MainActivity", "launchLoginActivity");
+        startActivity(LoginActivity.createIntent(this));
     }
 
     @Override
