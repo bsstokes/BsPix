@@ -2,8 +2,10 @@ package com.bsstokes.bspix.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.webkit.CookieManager;
 
 public class SharedPreferenceSettings implements BsPixSettings {
 
@@ -35,6 +37,11 @@ public class SharedPreferenceSettings implements BsPixSettings {
 
     @Override
     public void clearCookies() {
-        throw new UnsupportedOperationException("not implemented");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().removeAllCookies(null);
+        } else {
+            //noinspection deprecation
+            CookieManager.getInstance().removeAllCookie();
+        }
     }
 }
