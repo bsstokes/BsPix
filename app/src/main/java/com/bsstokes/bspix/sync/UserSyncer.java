@@ -6,20 +6,20 @@ import com.bsstokes.bspix.api.InstagramApi;
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.User;
 
-public class UserSyncer {
+class UserSyncer {
 
     @NonNull private final BsPixDatabase bsPixDatabase;
 
-    public UserSyncer(@NonNull BsPixDatabase bsPixDatabase) {
+    UserSyncer(@NonNull BsPixDatabase bsPixDatabase) {
         this.bsPixDatabase = bsPixDatabase;
     }
 
-    public void sync(InstagramApi.User apiUser) {
-        final User user = convert(apiUser);
+    public void sync(InstagramApi.User apiUser, boolean self) {
+        final User user = convert(apiUser, self);
         bsPixDatabase.putUser(user);
     }
 
-    public User convert(InstagramApi.User apiUser) {
+    private User convert(InstagramApi.User apiUser, boolean self) {
         int mediaCount = 0;
         int followsCount = 0;
         int followedByCount = 0;
@@ -31,6 +31,7 @@ public class UserSyncer {
 
         return User.builder()
                 .id(apiUser.id)
+                .self(self)
                 .userName(apiUser.username)
                 .fullName(apiUser.full_name)
                 .profilePicture(apiUser.profile_picture)

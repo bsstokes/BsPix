@@ -62,7 +62,7 @@ public class SyncService extends IntentService {
 
                     @Override public void onNext(InstagramApi.User user) {
                         final UserSyncer userSyncer = new UserSyncer(bsPixDatabase);
-                        userSyncer.sync(user);
+                        userSyncer.sync(user, true);
                     }
                 });
     }
