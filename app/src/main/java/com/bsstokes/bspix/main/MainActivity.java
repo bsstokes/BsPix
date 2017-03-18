@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.auth.LoginActivity;
-import com.bsstokes.bspix.home.HomeActivity;
+import com.bsstokes.bspix.app.home.HomeActivity;
 
 import javax.inject.Inject;
 

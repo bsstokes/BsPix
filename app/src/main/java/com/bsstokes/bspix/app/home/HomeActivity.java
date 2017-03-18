@@ -1,4 +1,4 @@
-package com.bsstokes.bspix.home;
+package com.bsstokes.bspix.app.home;
 
 import android.content.Context;
 import android.content.Intent;
