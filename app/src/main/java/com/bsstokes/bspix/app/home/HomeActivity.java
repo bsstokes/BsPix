@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.api.InstagramApi;
 import com.bsstokes.bspix.api.UnwrapInstagramResponse;

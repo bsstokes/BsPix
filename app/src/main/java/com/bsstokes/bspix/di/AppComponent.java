@@ -1,6 +1,6 @@
 package com.bsstokes.bspix.di;
 
-import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.LoginActivity;
 import com.bsstokes.bspix.app.home.HomeActivity;
 import com.bsstokes.bspix.app.main.MainActivity;

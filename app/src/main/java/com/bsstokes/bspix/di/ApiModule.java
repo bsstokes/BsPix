@@ -1,6 +1,6 @@
 package com.bsstokes.bspix.di;
 
-import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.BuildConfig;
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.api.AccessTokenInterceptor;

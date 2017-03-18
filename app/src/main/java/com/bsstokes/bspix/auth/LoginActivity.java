@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.R;
 
 import javax.inject.Inject;

@@ -1,6 +1,6 @@
 package com.bsstokes.bspix.di;
 
-import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.db.BsPixSQLiteOpenHelper;
 import com.squareup.sqlbrite.BriteDatabase;

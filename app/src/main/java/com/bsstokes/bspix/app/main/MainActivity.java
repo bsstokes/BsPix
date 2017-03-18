@@ -3,7 +3,7 @@ package com.bsstokes.bspix.app.main;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.auth.LoginActivity;
 import com.bsstokes.bspix.app.home.HomeActivity;

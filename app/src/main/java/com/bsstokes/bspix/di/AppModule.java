@@ -1,8 +1,7 @@
 package com.bsstokes.bspix.di;
 
-import com.bsstokes.bspix.BsPixApplication;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
-import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.settings.BsPixSettings;
 import com.bsstokes.bspix.settings.SharedPreferenceSettings;
 
