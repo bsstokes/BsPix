@@ -1,4 +1,4 @@
-package com.bsstokes.bspix.main;
+package com.bsstokes.bspix.app.main;
 
 import com.bsstokes.bspix.auth.Account;
 

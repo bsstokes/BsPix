@@ -1,4 +1,4 @@
-package com.bsstokes.bspix.main;
+package com.bsstokes.bspix.app.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
