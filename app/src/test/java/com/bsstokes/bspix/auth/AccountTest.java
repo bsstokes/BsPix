@@ -5,6 +5,7 @@ import com.bsstokes.bspix.settings.BsPixSettings;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -51,5 +52,12 @@ public class AccountTest {
     public void loggingOutClearsCookiesInSettings() {
         account.logOut();
         verify(mockSettings).clearCookies();
+    }
+
+    @Test
+    public void getsAccessTokenFromSettings() {
+        final String accessToken = "my.access.token";
+        when(mockSettings.getAccessToken()).thenReturn(accessToken);
+        assertEquals(accessToken, account.getAccessToken());
     }
 }

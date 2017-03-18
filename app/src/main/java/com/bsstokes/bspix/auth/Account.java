@@ -1,6 +1,7 @@
 package com.bsstokes.bspix.auth;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bsstokes.bspix.settings.BsPixSettings;
 
@@ -24,5 +25,9 @@ public class Account {
     public void logOut() {
         bsPixSettings.setAccessToken(null);
         bsPixSettings.clearCookies();
+    }
+
+    @Nullable public String getAccessToken() {
+        return bsPixSettings.getAccessToken();
     }
 }
