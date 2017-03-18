@@ -1,6 +1,9 @@
 package com.bsstokes.bspix.api;
 
 import okhttp3.HttpUrl;
+import retrofit2.Response;
+import retrofit2.http.GET;
+import rx.Observable;
 
 public interface InstagramApi {
 
@@ -18,4 +21,27 @@ public interface InstagramApi {
             .addQueryParameter("response_type", "token")
             .addQueryParameter("scope", SCOPE)
             .build();
+
+    @GET("users/self/")
+    Observable<Response<InstagramResponse<User>>> getSelf();
+
+    class InstagramResponse<T> {
+        public T data;
+    }
+
+    class User {
+        public String id;
+        public String username;
+        public String full_name;
+        public String profile_picture;
+        public String bio;
+        public String website;
+        public Counts counts;
+
+        public static class Counts {
+            public int media;
+            public int follows;
+            public int followed_by;
+        }
+    }
 }
