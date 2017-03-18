@@ -8,6 +8,7 @@ public interface InstagramApi {
     String SCOPE = "follower_list likes public_content";
 
     HttpUrl BASE_URL = HttpUrl.parse("https://api.instagram.com/");
+    HttpUrl BASE_API_URL = HttpUrl.parse("https://api.instagram.com/v1/");
 
     HttpUrl REDIRECT_URL = HttpUrl.parse("http://bspix.bsstokes.com/ig/authenticate");
     HttpUrl AUTHORIZE_URL = BASE_URL.newBuilder()

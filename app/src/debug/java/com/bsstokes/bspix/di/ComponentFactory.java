@@ -8,7 +8,7 @@ public class ComponentFactory {
     public static AppComponent create(@NonNull BsPixApplication application) {
         return DaggerDebugAppComponent.builder()
                 .appModule(new AppModule(application))
-//                .debugApiModule(new DebugApiModule())
+                .debugApiModule(new DebugApiModule())
                 .build();
     }
 }
