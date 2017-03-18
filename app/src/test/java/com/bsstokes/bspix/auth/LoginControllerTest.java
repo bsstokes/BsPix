@@ -47,4 +47,14 @@ public class LoginControllerTest {
         verify(mockAccount).logIn("MY-ACCESS-TOKEN");
         verify(mockView).finish();
     }
+
+    @Test
+    public void loadingAPageThatIsRedirectPageRequestsSync() {
+        final HttpUrl redirectUrl = InstagramApi.REDIRECT_URL.newBuilder()
+                .fragment("access_token=MY-ACCESS-TOKEN")
+                .build();
+        loginController.onLoadPage(redirectUrl.toString());
+
+        verify(mockView).requestSync();
+    }
 }

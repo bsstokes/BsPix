@@ -10,8 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.R;
+import com.bsstokes.bspix.app.BsPixApplication;
+import com.bsstokes.bspix.sync.SyncService;
 
 import javax.inject.Inject;
 
@@ -56,5 +57,9 @@ public class LoginActivity extends AppCompatActivity implements LoginController.
     @Override
     public void loadUrl(@NonNull HttpUrl authorizeUrl) {
         webView.loadUrl(authorizeUrl.toString());
+    }
+
+    @Override public void requestSync() {
+        SyncService.startActionSyncSelf(this);
     }
 }

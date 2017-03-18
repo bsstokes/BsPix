@@ -13,6 +13,8 @@ class LoginController {
         void loadUrl(@NonNull HttpUrl authorizeUrl);
 
         void finish();
+
+        void requestSync();
     }
 
     @NonNull private final View view;
@@ -32,6 +34,7 @@ class LoginController {
             final String accessToken = InstagramApiHelper.getAccessToken(url);
             if (null != accessToken) {
                 account.logIn(accessToken);
+                view.requestSync();
                 view.finish();
             }
         }
