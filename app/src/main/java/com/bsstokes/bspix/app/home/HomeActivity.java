@@ -13,18 +13,14 @@ import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.data.BsPixDatabase;
-import com.bsstokes.bspix.data.User;
-import com.bsstokes.bspix.rx.BaseObserver;
-import com.bsstokes.bspix.sync.SyncService;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.android.schedulers.AndroidSchedulers;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements HomeController.View {
 
     @BindView(R.id.profilePictureImageView) ImageView profilePictureImageView;
     @BindView(R.id.nameTextView) TextView nameTextView;
@@ -34,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
     @Inject Account account;
     @Inject BsPixDatabase bsPixDatabase;
     @Inject Picasso picasso;
+
+    private HomeController homeController;
 
     @NonNull
     public static Intent createIntent(@NonNull Context context) {
@@ -46,22 +44,32 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
         ButterKnife.bind(this);
         BsPixApplication.getBsPixApplication(this).getAppComponent().inject(this);
+        homeController = new HomeController(this, bsPixDatabase);
     }
 
     @Override protected void onResume() {
         super.onResume();
+        homeController.load();
+    }
 
-        bsPixDatabase.getUser("4833062266")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<User>() {
-                    @Override public void onNext(User user) {
-                        picasso.load(user.profilePicture()).into(profilePictureImageView);
-                        nameTextView.setText(user.fullName());
-                        bioTextView.setText(user.bio());
-                        websiteTextView.setText(user.website());
-                    }
-                });
+    @Override protected void onPause() {
+        super.onPause();
+        homeController.unload();
+    }
 
-        SyncService.startActionSyncSelf(this);
+    @Override public void loadProfilePicture(String profilePictureUrl) {
+        picasso.load(profilePictureUrl).into(profilePictureImageView);
+    }
+
+    @Override public void setName(String name) {
+        nameTextView.setText(name);
+    }
+
+    @Override public void setBio(String bio) {
+        bioTextView.setText(bio);
+    }
+
+    @Override public void setWebsite(String website) {
+        websiteTextView.setText(website);
     }
 }
