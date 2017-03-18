@@ -58,6 +58,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') { transitive = true }
 
     // Other Libraries
+    annotationProcessor 'com.google.auto.value:auto-value:1.4'
+    provided 'com.jakewharton.auto.value:auto-value-annotations:1.4'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
