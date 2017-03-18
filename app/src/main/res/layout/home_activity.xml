@@ -1,20 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/profilePictureImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="Profile picture"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlHardcoded" />
 
     <TextView
+        android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Home"/>
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintLeft_toLeftOf="@+id/profilePictureImageView"
+        app:layout_constraintTop_toBottomOf="@+id/profilePictureImageView"
+        tools:ignore="RtlHardcoded"
+        tools:text="Name" />
 
-    <Button
-        android:id="@+id/log_out_button"
+    <TextView
+        android:id="@+id/bioTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log Out"/>
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintLeft_toLeftOf="@+id/nameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+        tools:ignore="RtlHardcoded"
+        tools:text="Bio" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/websiteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintLeft_toLeftOf="@+id/bioTextView"
+        app:layout_constraintTop_toBottomOf="@+id/bioTextView"
+        tools:ignore="RtlHardcoded"
+        tools:text="Website" />
+</android.support.constraint.ConstraintLayout>

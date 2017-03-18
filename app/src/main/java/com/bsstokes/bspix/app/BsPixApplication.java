@@ -2,6 +2,7 @@ package com.bsstokes.bspix.app;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
 import android.support.annotation.NonNull;
 
 import com.bsstokes.bspix.di.AppComponent;
@@ -19,6 +20,11 @@ public class BsPixApplication extends Application {
     @NonNull
     public static BsPixApplication getBsPixApplication(@NonNull Activity activity) {
         return (BsPixApplication) activity.getApplication();
+    }
+
+    @NonNull
+    public static BsPixApplication getBsPixApplication(@NonNull Service service) {
+        return (BsPixApplication) service.getApplication();
     }
 
     @Override

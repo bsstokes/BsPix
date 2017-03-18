@@ -6,29 +6,34 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.R;
-import com.bsstokes.bspix.api.InstagramApi;
-import com.bsstokes.bspix.api.UnwrapInstagramResponse;
-import com.bsstokes.bspix.api.UnwrapResponse;
+import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.User;
+import com.bsstokes.bspix.rx.BaseObserver;
+import com.bsstokes.bspix.sync.SyncService;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import rx.Observer;
-import rx.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class HomeActivity extends AppCompatActivity {
 
+    @BindView(R.id.profilePictureImageView) ImageView profilePictureImageView;
+    @BindView(R.id.nameTextView) TextView nameTextView;
+    @BindView(R.id.bioTextView) TextView bioTextView;
+    @BindView(R.id.websiteTextView) TextView websiteTextView;
+
     @Inject Account account;
     @Inject BsPixDatabase bsPixDatabase;
-    @Inject InstagramApi instagramApi;
+    @Inject Picasso picasso;
 
     @NonNull
     public static Intent createIntent(@NonNull Context context) {
@@ -47,54 +52,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
 
         bsPixDatabase.getUser("4833062266")
-                .subscribe(new Observer<User>() {
-                    @Override public void onCompleted() {
-
-                    }
-
-                    @Override public void onError(Throwable e) {
-
-                    }
-
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<User>() {
                     @Override public void onNext(User user) {
-                        Log.d("getUser", "user=" + user);
+                        picasso.load(user.profilePicture()).into(profilePictureImageView);
+                        nameTextView.setText(user.fullName());
+                        bioTextView.setText(user.bio());
+                        websiteTextView.setText(user.website());
                     }
                 });
 
-
-        instagramApi.getSelf()
-                .subscribeOn(Schedulers.io())
-                .map(new UnwrapResponse<InstagramApi.InstagramResponse<InstagramApi.User>>())
-                .map(new UnwrapInstagramResponse<InstagramApi.User>())
-                .subscribe(new Observer<InstagramApi.User>() {
-                    @Override public void onCompleted() {
-
-                    }
-
-                    @Override public void onError(Throwable e) {
-
-                    }
-
-                    @Override public void onNext(InstagramApi.User user) {
-                        final User dbUser = User.builder()
-                                .id(user.id)
-                                .userName(user.username)
-                                .fullName(user.full_name)
-                                .bio(user.bio)
-                                .website(user.website)
-                                .mediaCount(user.counts.media)
-                                .followsCount(user.counts.follows)
-                                .followedByCount(user.counts.followed_by)
-                                .build();
-
-                        bsPixDatabase.putUser(dbUser);
-                    }
-                });
-    }
-
-    @OnClick(R.id.log_out_button)
-    void onClickLogOutButton() {
-        account.logOut();
-        finish();
+        SyncService.startActionSyncSelf(this);
     }
 }
