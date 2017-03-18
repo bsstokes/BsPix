@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,8 +15,11 @@ import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.data.BsPixDatabase;
+import com.bsstokes.bspix.data.Media;
 import com.bsstokes.bspix.sync.SyncService;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,6 +32,7 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
     @BindView(R.id.nameTextView) TextView nameTextView;
     @BindView(R.id.bioTextView) TextView bioTextView;
     @BindView(R.id.websiteTextView) TextView websiteTextView;
+    @BindView(R.id.mediaRecyclerView) RecyclerView mediaRecyclerView;
     // Counts
     @BindView(R.id.postsCountTextView) TextView postsCountTextView;
     @BindView(R.id.followersCountTextView) TextView followersCountTextView;
@@ -37,6 +43,7 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
     @Inject Picasso picasso;
 
     private HomeController homeController;
+    private MediaAdapter mediaAdapter;
 
     @NonNull
     public static Intent createIntent(@NonNull Context context) {
@@ -49,6 +56,11 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
         setContentView(R.layout.home_activity);
         ButterKnife.bind(this);
         BsPixApplication.getBsPixApplication(this).getAppComponent().inject(this);
+
+        mediaRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mediaAdapter = new MediaAdapter(picasso);
+        mediaRecyclerView.setAdapter(mediaAdapter);
+
         homeController = new HomeController(this, bsPixDatabase);
     }
 
@@ -83,5 +95,9 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
         postsCountTextView.setText(String.valueOf(posts));
         followersCountTextView.setText(String.valueOf(followers));
         followingCountTextView.setText(String.valueOf(following));
+    }
+
+    @Override public void setMedia(@NonNull List<Media> mediaList) {
+        mediaAdapter.setMedia(mediaList);
     }
 }

@@ -1,7 +1,6 @@
 package com.bsstokes.bspix.app.home;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.Media;
@@ -27,6 +26,8 @@ class HomeController {
         void setWebsite(String website);
 
         void setCounts(int posts, int followers, int following);
+
+        void setMedia(@NonNull List<Media> mediaList);
     }
 
     @NonNull private final View view;
@@ -63,9 +64,7 @@ class HomeController {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<Media>>() {
                     @Override public void onNext(List<Media> mediaList) {
-                        for (final Media media : mediaList) {
-                            Log.d("MEDIA", "media=" + media.standardResolutionUrl());
-                        }
+                        view.setMedia(mediaList);
                     }
                 });
         subscriptions.add(subscription);
