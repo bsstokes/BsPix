@@ -4,6 +4,7 @@ import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.settings.BsPixSettings;
 import com.bsstokes.bspix.settings.SharedPreferenceSettings;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Singleton;
 
@@ -19,21 +20,19 @@ class AppModule {
         this.application = application;
     }
 
-    @Provides
-    @Singleton
-    BsPixApplication provideApplication() {
+    @Provides @Singleton BsPixApplication provideApplication() {
         return application;
     }
 
-    @Provides
-    @Singleton
-    BsPixSettings provideBsPixSettings() {
+    @Provides @Singleton BsPixSettings provideBsPixSettings() {
         return new SharedPreferenceSettings(application.getApplicationContext());
     }
 
-    @Provides
-    @Singleton
-    Account provideAccount(BsPixSettings bsPixSettings) {
+    @Provides @Singleton Account provideAccount(BsPixSettings bsPixSettings) {
         return new Account(bsPixSettings);
+    }
+
+    @Provides @Singleton Picasso providePicasso() {
+        return Picasso.with(application);
     }
 }
