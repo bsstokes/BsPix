@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.bsstokes.bspix.data.db.mappings.UsersMapping;
 import com.squareup.sqlbrite.BriteDatabase;
 
+import java.util.List;
+
 import rx.Observable;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
@@ -19,6 +21,12 @@ public class BsPixDatabase {
 
     public void putUser(@NonNull User user) {
         briteDatabase.insert(UsersMapping.Table.NAME, UsersMapping.toContentValues(user), CONFLICT_REPLACE);
+    }
+
+    public Observable<List<User>> getUsers() {
+        final String query = "SELECT * FROM " + UsersMapping.Table.NAME;
+        return briteDatabase.createQuery(UsersMapping.Table.NAME, query)
+                .mapToList(UsersMapping.MAPPER);
     }
 
     public Observable<User> getUser(String userId) {

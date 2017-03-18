@@ -23,6 +23,8 @@ public abstract class User {
 
     public abstract int followedByCount();
 
+    public abstract Builder toBuilder();
+
     public static Builder builder() {
         return new AutoValue_User.Builder()
                 .mediaCount(0)
