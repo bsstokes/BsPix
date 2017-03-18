@@ -77,6 +77,22 @@ public class BsPixDatabase {
                 .mapToOneOrDefault(MediaMapping.MAPPER, NO_MEDIA);
     }
 
+    public Observable<List<Media>> getMediaForSelf() {
+        final String usersSelfField = UsersMapping.Table.NAME + "." + UsersMapping.Columns.SELF;
+        final String usersIdField = UsersMapping.Table.NAME + "." + UsersMapping.Columns.ID;
+        final String mediaAllFields = MediaMapping.Table.NAME + ".*";
+        final String mediaUserIdField = MediaMapping.Table.NAME + "." + MediaMapping.Columns.USER_ID;
+
+        final String query = ""
+                + "SELECT " + mediaAllFields
+                + " FROM " + MediaMapping.Table.NAME
+                + " JOIN " + UsersMapping.Table.NAME
+                + " WHERE " + usersSelfField + "=1"
+                + " AND " + usersIdField + "=" + mediaUserIdField;
+        return briteDatabase.createQuery(MediaMapping.Table.NAME, query)
+                .mapToList(MediaMapping.MAPPER);
+    }
+
     public Observable<List<Media>> getMediaForUser(String userId) {
         final String query = ""
                 + "SELECT *"

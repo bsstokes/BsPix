@@ -1,10 +1,14 @@
 package com.bsstokes.bspix.app.home;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.bsstokes.bspix.data.BsPixDatabase;
+import com.bsstokes.bspix.data.Media;
 import com.bsstokes.bspix.data.User;
 import com.bsstokes.bspix.rx.BaseObserver;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscription;
@@ -36,6 +40,7 @@ class HomeController {
 
     void loadSelf() {
         load(bsPixDatabase.getSelf());
+        loadMedia(bsPixDatabase.getMediaForSelf());
     }
 
     private void load(Observable<User> userObservable) {
@@ -48,6 +53,19 @@ class HomeController {
                         view.setBio(user.bio());
                         view.setWebsite(user.website());
                         view.setCounts(user.mediaCount(), user.followedByCount(), user.followsCount());
+                    }
+                });
+        subscriptions.add(subscription);
+    }
+
+    private void loadMedia(Observable<List<Media>> mediaListObservable) {
+        final Subscription subscription = mediaListObservable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<List<Media>>() {
+                    @Override public void onNext(List<Media> mediaList) {
+                        for (final Media media : mediaList) {
+                            Log.d("MEDIA", "media=" + media.standardResolutionUrl());
+                        }
                     }
                 });
         subscriptions.add(subscription);
