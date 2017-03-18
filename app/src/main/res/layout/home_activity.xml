@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/profilePictureImageView"
@@ -14,7 +14,7 @@
         android:contentDescription="Profile picture"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"/>
 
     <TextView
         android:id="@+id/nameTextView"
@@ -26,7 +26,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/profilePictureImageView"
         app:layout_constraintTop_toBottomOf="@+id/profilePictureImageView"
         tools:ignore="RtlHardcoded"
-        tools:text="Name" />
+        tools:text="Name"/>
 
     <TextView
         android:id="@+id/bioTextView"
@@ -37,7 +37,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/nameTextView"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView"
         tools:ignore="RtlHardcoded"
-        tools:text="Bio" />
+        tools:text="Bio"/>
 
     <TextView
         android:id="@+id/websiteTextView"
@@ -45,8 +45,24 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="2dp"
+        android:autoLink="web"
         app:layout_constraintLeft_toLeftOf="@+id/bioTextView"
         app:layout_constraintTop_toBottomOf="@+id/bioTextView"
         tools:ignore="RtlHardcoded"
-        tools:text="Website" />
+        tools:text="Website"/>
+
+    <include
+        layout="@layout/counts_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profilePictureImageView"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toRightOf="@+id/profilePictureImageView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/profilePictureImageView"/>
+
 </android.support.constraint.ConstraintLayout>

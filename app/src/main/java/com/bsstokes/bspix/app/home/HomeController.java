@@ -20,6 +20,8 @@ class HomeController {
         void setBio(String bio);
 
         void setWebsite(String website);
+
+        void setCounts(int posts, int followers, int following);
     }
 
     @NonNull private final View view;
@@ -40,6 +42,7 @@ class HomeController {
                         view.setName(user.fullName());
                         view.setBio(user.bio());
                         view.setWebsite(user.website());
+                        view.setCounts(user.mediaCount(), user.followedByCount(), user.followsCount());
                     }
                 });
         subscriptions.add(subscription);

@@ -26,6 +26,10 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
     @BindView(R.id.nameTextView) TextView nameTextView;
     @BindView(R.id.bioTextView) TextView bioTextView;
     @BindView(R.id.websiteTextView) TextView websiteTextView;
+    // Counts
+    @BindView(R.id.postsCountTextView) TextView postsCountTextView;
+    @BindView(R.id.followersCountTextView) TextView followersCountTextView;
+    @BindView(R.id.followingCountTextView) TextView followingCountTextView;
 
     @Inject Account account;
     @Inject BsPixDatabase bsPixDatabase;
@@ -71,5 +75,11 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
 
     @Override public void setWebsite(String website) {
         websiteTextView.setText(website);
+    }
+
+    @Override public void setCounts(int posts, int followers, int following) {
+        postsCountTextView.setText(String.valueOf(posts));
+        followersCountTextView.setText(String.valueOf(followers));
+        followingCountTextView.setText(String.valueOf(following));
     }
 }
