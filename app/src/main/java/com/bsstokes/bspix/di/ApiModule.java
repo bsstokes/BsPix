@@ -3,8 +3,10 @@ package com.bsstokes.bspix.di;
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.BuildConfig;
 import com.bsstokes.bspix.R;
+import com.bsstokes.bspix.api.AccessTokenInterceptor;
 import com.bsstokes.bspix.api.InstagramApi;
 import com.bsstokes.bspix.api.UserAgentInterceptor;
+import com.bsstokes.bspix.auth.Account;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -55,8 +57,9 @@ class ApiModule {
     @Provides
     @Singleton
     @Named(ApiModule.BASE_API_CLIENT)
-    OkHttpClient provideBaseApiOkHttpClient(@Named(BASE_CLIENT) OkHttpClient baseOkHttpClient) {
+    OkHttpClient provideBaseApiOkHttpClient(@Named(BASE_CLIENT) OkHttpClient baseOkHttpClient, Account account) {
         return baseOkHttpClient.newBuilder()
+                .addInterceptor(new AccessTokenInterceptor(account))
                 .build();
     }
 }
