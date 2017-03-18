@@ -6,6 +6,7 @@ import com.bsstokes.bspix.data.db.mappings.MediaMapping;
 import com.bsstokes.bspix.data.db.mappings.UsersMapping;
 import com.squareup.sqlbrite.BriteDatabase;
 
+import java.util.Arrays;
 import java.util.List;
 
 import rx.Observable;
@@ -50,8 +51,20 @@ public class BsPixDatabase {
                 .mapToOneOrDefault(UsersMapping.MAPPER, NO_USER);
     }
 
-    public void putMedia(@NonNull Media media) {
-        briteDatabase.insert(MediaMapping.Table.NAME, MediaMapping.toContentValues(media), CONFLICT_REPLACE);
+    public void putMedia(@NonNull Media... mediaList) {
+        putMedia(Arrays.asList(mediaList));
+    }
+
+    public void putMedia(@NonNull List<Media> mediaList) {
+        final BriteDatabase.Transaction transaction = briteDatabase.newTransaction();
+        try {
+            for (final Media media : mediaList) {
+                briteDatabase.insert(MediaMapping.Table.NAME, MediaMapping.toContentValues(media), CONFLICT_REPLACE);
+            }
+            transaction.markSuccessful();
+        } finally {
+            transaction.end();
+        }
     }
 
     public Observable<Media> getMedia(String mediaId) {

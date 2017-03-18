@@ -141,9 +141,7 @@ public class BsPixDatabaseTest {
         final Media myMedia2 = media.toBuilder().id("2").userId("1").build();
         final Media notMyMedia3 = media.toBuilder().id("3").userId("2").build();
 
-        database.putMedia(myMedia1);
-        database.putMedia(myMedia2);
-        database.putMedia(notMyMedia3);
+        database.putMedia(myMedia1, myMedia2, notMyMedia3);
 
         final List<Media> mediaList = sync(database.getMediaForUser("1"));
         assertEquals(2, mediaList.size());
@@ -155,8 +153,7 @@ public class BsPixDatabaseTest {
         final Media myMedia1 = media.toBuilder().id("1").userId("1").build();
         final Media myMedia2 = media.toBuilder().id("2").userId("1").build();
 
-        database.putMedia(myMedia1);
-        database.putMedia(myMedia2);
+        database.putMedia(myMedia1, myMedia2);
 
         final Media foundMedia = sync(database.getMedia("2"));
         assertEquals(myMedia2, foundMedia);
