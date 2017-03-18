@@ -6,6 +6,7 @@ public class Migration001_CreateUsers implements Migration {
     @Override public void onUpgrade(SQLiteDatabase database) {
         final String CREATE_SKILLS = "CREATE TABLE `users` ("
                 + "`_id` VARCHAR PRIMARY KEY,"
+                + "`self` INTEGER DEFAULT 0,"
                 + "`userName` VARCHAR,"
                 + "`fullName` VARCHAR,"
                 + "`profilePicture` VARCHAR,"

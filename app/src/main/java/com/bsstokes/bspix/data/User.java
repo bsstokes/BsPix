@@ -9,6 +9,8 @@ public abstract class User {
 
     @Nullable public abstract String id();
 
+    public abstract boolean self();
+
     @Nullable public abstract String userName();
 
     @Nullable public abstract String fullName();
@@ -29,6 +31,7 @@ public abstract class User {
 
     public static Builder builder() {
         return new AutoValue_User.Builder()
+                .self(false)
                 .mediaCount(0)
                 .followsCount(0)
                 .followedByCount(0);
@@ -37,6 +40,8 @@ public abstract class User {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Builder id(String id);
+
+        public abstract Builder self(boolean self);
 
         public abstract Builder userName(String userName);
 

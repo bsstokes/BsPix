@@ -43,6 +43,7 @@ public class BsPixDatabaseTest {
 
     private final User user = User.builder()
             .id("1234")
+            .self(true)
             .userName("bsstokes")
             .fullName("Brian Stokes")
             .profilePicture("http://profile.picture.com")

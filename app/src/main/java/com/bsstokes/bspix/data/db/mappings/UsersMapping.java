@@ -14,6 +14,7 @@ public class UsersMapping {
 
     public interface Columns {
         String ID = "_id";
+        String SELF = "self";
         String USER_NAME = "userName";
         String FULL_NAME = "fullName";
         String PROFILE_PICTURE = "profilePicture";
@@ -34,6 +35,7 @@ public class UsersMapping {
     public static User toUser(Cursor cursor) {
         return User.builder()
                 .id(Db.getString(cursor, Columns.ID))
+                .self(Db.getBoolean(cursor, Columns.SELF))
                 .userName(Db.getString(cursor, Columns.USER_NAME))
                 .fullName(Db.getString(cursor, Columns.FULL_NAME))
                 .profilePicture(Db.getString(cursor, Columns.PROFILE_PICTURE))
@@ -48,6 +50,7 @@ public class UsersMapping {
     public static ContentValues toContentValues(User user) {
         final ContentValues contentValues = new ContentValues();
         contentValues.put(Columns.ID, user.id());
+        contentValues.put(Columns.SELF, user.self());
         contentValues.put(Columns.USER_NAME, user.userName());
         contentValues.put(Columns.FULL_NAME, user.fullName());
         contentValues.put(Columns.PROFILE_PICTURE, user.profilePicture());
