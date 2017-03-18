@@ -9,11 +9,12 @@ import com.bsstokes.bspix.api.UnwrapInstagramResponse;
 import com.bsstokes.bspix.api.UnwrapResponse;
 import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.data.BsPixDatabase;
-import com.crashlytics.android.Crashlytics;
+import com.bsstokes.bspix.rx.BaseObserver;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observer;
 import rx.schedulers.Schedulers;
 
 public class SyncService extends IntentService {
@@ -47,22 +48,26 @@ public class SyncService extends IntentService {
 
     private void handleActionSyncSelf() {
         instagramApi.getSelf()
-                .observeOn(Schedulers.immediate())
-                .subscribeOn(Schedulers.immediate())
                 .map(new UnwrapResponse<InstagramApi.InstagramResponse<InstagramApi.User>>())
                 .map(new UnwrapInstagramResponse<InstagramApi.User>())
-                .subscribe(new Observer<InstagramApi.User>() {
-                    @Override public void onCompleted() {
-
-                    }
-
-                    @Override public void onError(Throwable e) {
-                        Crashlytics.logException(e);
-                    }
-
+                .observeOn(Schedulers.immediate())
+                .subscribeOn(Schedulers.immediate())
+                .subscribe(new BaseObserver<InstagramApi.User>() {
                     @Override public void onNext(InstagramApi.User user) {
                         final UserSyncer userSyncer = new UserSyncer(bsPixDatabase);
                         userSyncer.sync(user, true);
+                    }
+                });
+
+        instagramApi.getRecentMedia()
+                .map(new UnwrapResponse<InstagramApi.InstagramResponse<List<InstagramApi.Media>>>())
+                .map(new UnwrapInstagramResponse<List<InstagramApi.Media>>())
+                .observeOn(Schedulers.immediate())
+                .subscribeOn(Schedulers.immediate())
+                .subscribe(new BaseObserver<List<InstagramApi.Media>>() {
+                    @Override public void onNext(List<InstagramApi.Media> mediaList) {
+                        final MediaSyncer mediaSyncer = new MediaSyncer(bsPixDatabase);
+                        mediaSyncer.sync(mediaList);
                     }
                 });
     }

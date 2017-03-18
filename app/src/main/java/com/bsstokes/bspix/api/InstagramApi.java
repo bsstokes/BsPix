@@ -1,5 +1,7 @@
 package com.bsstokes.bspix.api;
 
+import java.util.List;
+
 import okhttp3.HttpUrl;
 import retrofit2.Response;
 import retrofit2.http.GET;
@@ -25,6 +27,9 @@ public interface InstagramApi {
     @GET("users/self/")
     Observable<Response<InstagramResponse<User>>> getSelf();
 
+    @GET("users/self/media/recent/")
+    Observable<Response<InstagramResponse<List<Media>>>> getRecentMedia();
+
     class InstagramResponse<T> {
         public T data;
     }
@@ -42,6 +47,42 @@ public interface InstagramApi {
             public int media;
             public int follows;
             public int followed_by;
+        }
+    }
+
+
+
+    class Media {
+        public String id;
+        public Caption caption;
+        public User user; // username, profile_picture, id
+        public Images images;
+        public String type;
+        public List<String> tags;
+        public Location location;
+
+        public static class Caption {
+            public String text;
+        }
+
+        public static class Images {
+            public Image low_resolution;
+            public Image thumbnail;
+            public Image standard_resolution;
+        }
+
+        public static class Image {
+            public String url;
+            public int width;
+            public int height;
+        }
+
+        public static class Location {
+            public double latitude;
+            public double longitude;
+            public String id;
+            public String street_address;
+            public String name;
         }
     }
 }

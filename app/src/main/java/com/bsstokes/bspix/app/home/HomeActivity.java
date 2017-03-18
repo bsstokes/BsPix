@@ -13,6 +13,7 @@ import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.data.BsPixDatabase;
+import com.bsstokes.bspix.sync.SyncService;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -54,6 +55,7 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
     @Override protected void onResume() {
         super.onResume();
         homeController.loadSelf();
+        SyncService.startActionSyncSelf(this);
     }
 
     @Override protected void onPause() {
