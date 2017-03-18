@@ -8,6 +8,7 @@ public class Migration001_CreateUsers implements Migration {
                 + "`_id` VARCHAR PRIMARY KEY,"
                 + "`userName` VARCHAR,"
                 + "`fullName` VARCHAR,"
+                + "`profilePicture` VARCHAR,"
                 + "`bio` VARCHAR,"
                 + "`website` VARCHAR,"
                 + "`mediaCount` INTEGER,"

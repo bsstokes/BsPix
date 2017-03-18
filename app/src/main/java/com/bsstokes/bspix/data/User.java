@@ -13,6 +13,8 @@ public abstract class User {
 
     @Nullable public abstract String fullName();
 
+    @Nullable public abstract String profilePicture();
+
     @Nullable public abstract String bio();
 
     @Nullable public abstract String website();
@@ -39,6 +41,8 @@ public abstract class User {
         public abstract Builder userName(String userName);
 
         public abstract Builder fullName(String fullName);
+
+        public abstract Builder profilePicture(String profilePicture);
 
         public abstract Builder bio(String bio);
 

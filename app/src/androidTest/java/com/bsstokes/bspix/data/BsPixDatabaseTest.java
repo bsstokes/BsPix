@@ -45,6 +45,7 @@ public class BsPixDatabaseTest {
             .id("1234")
             .userName("bsstokes")
             .fullName("Brian Stokes")
+            .profilePicture("http://profile.picture.com")
             .bio("I'm awesome")
             .website("http://bsstokes.com")
             .mediaCount(5)

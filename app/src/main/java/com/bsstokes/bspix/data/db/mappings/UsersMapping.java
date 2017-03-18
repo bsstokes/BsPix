@@ -16,6 +16,7 @@ public class UsersMapping {
         String ID = "_id";
         String USER_NAME = "userName";
         String FULL_NAME = "fullName";
+        String PROFILE_PICTURE = "profilePicture";
         String BIO = "bio";
         String WEBSITE = "website";
         String MEDIA_COUNT = "mediaCount";
@@ -35,6 +36,7 @@ public class UsersMapping {
                 .id(Db.getString(cursor, Columns.ID))
                 .userName(Db.getString(cursor, Columns.USER_NAME))
                 .fullName(Db.getString(cursor, Columns.FULL_NAME))
+                .profilePicture(Db.getString(cursor, Columns.PROFILE_PICTURE))
                 .bio(Db.getString(cursor, Columns.BIO))
                 .website(Db.getString(cursor, Columns.WEBSITE))
                 .mediaCount(Db.getInt(cursor, Columns.MEDIA_COUNT))
@@ -48,6 +50,7 @@ public class UsersMapping {
         contentValues.put(Columns.ID, user.id());
         contentValues.put(Columns.USER_NAME, user.userName());
         contentValues.put(Columns.FULL_NAME, user.fullName());
+        contentValues.put(Columns.PROFILE_PICTURE, user.profilePicture());
         contentValues.put(Columns.BIO, user.bio());
         contentValues.put(Columns.WEBSITE, user.website());
         contentValues.put(Columns.MEDIA_COUNT, user.mediaCount());
