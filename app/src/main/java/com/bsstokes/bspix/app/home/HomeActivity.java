@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
 
     @Override protected void onResume() {
         super.onResume();
-        homeController.load();
+        homeController.loadSelf();
     }
 
     @Override protected void onPause() {

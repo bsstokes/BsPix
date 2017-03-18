@@ -6,6 +6,7 @@ import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.User;
 import com.bsstokes.bspix.rx.BaseObserver;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -33,8 +34,12 @@ class HomeController {
         this.bsPixDatabase = bsPixDatabase;
     }
 
-    void load() {
-        final Subscription subscription = bsPixDatabase.getSelf()
+    void loadSelf() {
+        load(bsPixDatabase.getSelf());
+    }
+
+    private void load(Observable<User> userObservable) {
+        final Subscription subscription = userObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<User>() {
                     @Override public void onNext(User user) {
