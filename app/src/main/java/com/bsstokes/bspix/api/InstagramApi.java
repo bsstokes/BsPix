@@ -36,7 +36,7 @@ public interface InstagramApi {
         public String profile_picture;
         public String bio;
         public String website;
-        public Counts counts;
+        public Counts counts = new Counts();
 
         public static class Counts {
             public int media;
