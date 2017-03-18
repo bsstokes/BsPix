@@ -34,7 +34,7 @@ class HomeController {
     }
 
     void load() {
-        final Subscription subscription = bsPixDatabase.getUser("4833062266")
+        final Subscription subscription = bsPixDatabase.getSelf()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<User>() {
                     @Override public void onNext(User user) {
