@@ -23,5 +23,6 @@ public class Account {
 
     public void logOut() {
         bsPixSettings.setAccessToken(null);
+        bsPixSettings.clearCookies();
     }
 }

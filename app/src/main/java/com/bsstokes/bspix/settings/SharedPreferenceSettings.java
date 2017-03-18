@@ -32,4 +32,9 @@ public class SharedPreferenceSettings implements BsPixSettings {
     private SharedPreferences getSharedPreferences() {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
+
+    @Override
+    public void clearCookies() {
+        throw new UnsupportedOperationException("not implemented");
+    }
 }

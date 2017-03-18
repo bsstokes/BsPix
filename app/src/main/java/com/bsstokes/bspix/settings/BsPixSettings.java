@@ -7,4 +7,6 @@ public interface BsPixSettings {
     String getAccessToken();
 
     void setAccessToken(@Nullable String accessToken);
+
+    void clearCookies();
 }

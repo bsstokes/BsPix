@@ -46,4 +46,10 @@ public class AccountTest {
         account.logOut();
         verify(mockSettings).setAccessToken(null);
     }
+
+    @Test
+    public void loggingOutClearsCookiesInSettings() {
+        account.logOut();
+        verify(mockSettings).clearCookies();
+    }
 }
