@@ -86,4 +86,27 @@ public class BsPixDatabaseTest {
 
         assertThat(sync(database.getUsers()), contains(user1, user2));
     }
+
+    @Test
+    public void calling_getSelf_on_empty_database_returns_NO_USER() {
+        assertEquals(NO_USER, sync(database.getSelf()));
+    }
+
+    @Test
+    public void calling_getSelf_when_there_is_no_self_returns_NO_USER() {
+        database.putUser(user.toBuilder().self(false).build());
+        assertEquals(NO_USER, sync(database.getSelf()));
+    }
+
+    @Test
+    public void calling_getSelf_only_returns_self() {
+        final User user1NotSelf = user.toBuilder().id("1").self(false).build();
+        final User user2Self = user.toBuilder().id("2").self(true).build();
+
+        database.putUser(user1NotSelf);
+        database.putUser(user2Self);
+
+        final User foundUser = sync(database.getSelf());
+        assertEquals(user2Self, foundUser);
+    }
 }

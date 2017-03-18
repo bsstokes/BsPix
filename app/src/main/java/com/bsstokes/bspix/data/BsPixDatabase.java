@@ -29,6 +29,16 @@ public class BsPixDatabase {
                 .mapToList(UsersMapping.MAPPER);
     }
 
+    public Observable<User> getSelf() {
+        final String query = ""
+                + "SELECT *"
+                + " FROM " + UsersMapping.Table.NAME
+                + " WHERE " + UsersMapping.Columns.SELF + "=1"
+                + " LIMIT 1";
+        return briteDatabase.createQuery(UsersMapping.Table.NAME, query)
+                .mapToOneOrDefault(UsersMapping.MAPPER, NO_USER);
+    }
+
     public Observable<User> getUser(String userId) {
         final String query = ""
                 + "SELECT *"
