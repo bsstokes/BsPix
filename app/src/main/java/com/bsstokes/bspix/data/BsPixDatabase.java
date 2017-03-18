@@ -2,6 +2,7 @@ package com.bsstokes.bspix.data;
 
 import android.support.annotation.NonNull;
 
+import com.bsstokes.bspix.data.db.mappings.MediaMapping;
 import com.bsstokes.bspix.data.db.mappings.UsersMapping;
 import com.squareup.sqlbrite.BriteDatabase;
 
@@ -49,6 +50,30 @@ public class BsPixDatabase {
                 .mapToOneOrDefault(UsersMapping.MAPPER, NO_USER);
     }
 
-    public static final User NO_USER = User.builder()
-            .build();
+    public void putMedia(@NonNull Media media) {
+        briteDatabase.insert(MediaMapping.Table.NAME, MediaMapping.toContentValues(media), CONFLICT_REPLACE);
+    }
+
+    public Observable<Media> getMedia(String mediaId) {
+        final String query = ""
+                + "SELECT *"
+                + " FROM " + MediaMapping.Table.NAME
+                + " WHERE " + MediaMapping.Columns.ID + "=?"
+                + " LIMIT 1";
+        return briteDatabase.createQuery(MediaMapping.Table.NAME, query, mediaId)
+                .mapToOneOrDefault(MediaMapping.MAPPER, NO_MEDIA);
+    }
+
+    public Observable<List<Media>> getMediaForUser(String userId) {
+        final String query = ""
+                + "SELECT *"
+                + " FROM " + MediaMapping.Table.NAME
+                + " WHERE " + MediaMapping.Columns.USER_ID + "=?";
+        return briteDatabase.createQuery(MediaMapping.Table.NAME, query, userId)
+                .mapToList(MediaMapping.MAPPER);
+
+    }
+
+    public static final User NO_USER = User.builder().build();
+    public static final Media NO_MEDIA = Media.builder().build();
 }

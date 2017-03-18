@@ -17,6 +17,7 @@ import java.util.List;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
+import static com.bsstokes.bspix.data.BsPixDatabase.NO_MEDIA;
 import static com.bsstokes.bspix.data.BsPixDatabase.NO_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -108,5 +109,67 @@ public class BsPixDatabaseTest {
 
         final User foundUser = sync(database.getSelf());
         assertEquals(user2Self, foundUser);
+    }
+
+    private final Media media = Media.builder()
+            .id("456")
+            .userId("789")
+            .caption("My caption")
+            .type("image")
+            .tags("tag1,tag2")
+            .location("My location")
+            .lowResolutionUrl("http://low-resolution-url.com/")
+            .lowResolutionWidth(100)
+            .lowResolutionHeight(200)
+            .thumbnailUrl("http://thumbnail-url.com/")
+            .thumbnailWidth(50)
+            .thumbnailHeight(100)
+            .standardResolutionUrl("http://standard-resolution-url.com/")
+            .standardResolutionWidth(400)
+            .standardResolutionHeight(800)
+            .build();
+
+    @Test
+    public void an_empty_Media_table_returns_an_empty_list() {
+        final List<Media> mediaList = sync(database.getMediaForUser(media.userId()));
+        assertTrue(mediaList.isEmpty());
+    }
+
+    @Test
+    public void getMediaForUser_returns_only_Media_for_userId() {
+        final Media myMedia1 = media.toBuilder().id("1").userId("1").build();
+        final Media myMedia2 = media.toBuilder().id("2").userId("1").build();
+        final Media notMyMedia3 = media.toBuilder().id("3").userId("2").build();
+
+        database.putMedia(myMedia1);
+        database.putMedia(myMedia2);
+        database.putMedia(notMyMedia3);
+
+        final List<Media> mediaList = sync(database.getMediaForUser("1"));
+        assertEquals(2, mediaList.size());
+        assertThat(mediaList, contains(myMedia1, myMedia2));
+    }
+
+    @Test
+    public void getMedia_returns_correct_Media() {
+        final Media myMedia1 = media.toBuilder().id("1").userId("1").build();
+        final Media myMedia2 = media.toBuilder().id("2").userId("1").build();
+
+        database.putMedia(myMedia1);
+        database.putMedia(myMedia2);
+
+        final Media foundMedia = sync(database.getMedia("2"));
+        assertEquals(myMedia2, foundMedia);
+    }
+
+    @Test
+    public void when_no_Media_getMedia_returns_NO_MEDIA() {
+        assertEquals(NO_MEDIA, sync(database.getMedia("1")));
+    }
+
+    @Test
+    public void getMedia_returns_NO_MEDIA_when_not_found() {
+        database.putMedia(media.toBuilder().id("2").build());
+        assertEquals(NO_MEDIA, sync(database.getMedia("1")));
     }
 }
