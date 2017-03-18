@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.bsstokes.bspix.BsPixApplication;
 import com.bsstokes.bspix.R;
@@ -26,8 +27,8 @@ import rx.schedulers.Schedulers;
 public class HomeActivity extends AppCompatActivity {
 
     @Inject Account account;
-    @Inject InstagramApi instagramApi;
     @Inject BsPixDatabase bsPixDatabase;
+    @Inject InstagramApi instagramApi;
 
     @NonNull
     public static Intent createIntent(@NonNull Context context) {
@@ -40,6 +41,26 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
         ButterKnife.bind(this);
         BsPixApplication.getBsPixApplication(this).getAppComponent().inject(this);
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+
+        bsPixDatabase.getUser("4833062266")
+                .subscribe(new Observer<User>() {
+                    @Override public void onCompleted() {
+
+                    }
+
+                    @Override public void onError(Throwable e) {
+
+                    }
+
+                    @Override public void onNext(User user) {
+                        Log.d("getUser", "user=" + user);
+                    }
+                });
+
 
         instagramApi.getSelf()
                 .subscribeOn(Schedulers.io())
@@ -55,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                     @Override public void onNext(InstagramApi.User user) {
-                        final User theUser = User.builder()
+                        final User dbUser = User.builder()
                                 .id(user.id)
                                 .userName(user.username)
                                 .fullName(user.full_name)
@@ -65,7 +86,8 @@ public class HomeActivity extends AppCompatActivity {
                                 .followsCount(user.counts.follows)
                                 .followedByCount(user.counts.followed_by)
                                 .build();
-                        bsPixDatabase.putUser(theUser.id(), theUser);
+
+                        bsPixDatabase.putUser(dbUser);
                     }
                 });
     }
