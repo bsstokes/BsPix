@@ -47,27 +47,39 @@ public class SyncService extends IntentService {
     }
 
     private void handleActionSyncSelf() {
+        final UserSyncer userSyncer = new UserSyncer(bsPixDatabase);
         instagramApi.getSelf()
-                .map(new UnwrapResponse<InstagramApi.InstagramResponse<InstagramApi.User>>())
-                .map(new UnwrapInstagramResponse<InstagramApi.User>())
                 .observeOn(Schedulers.immediate())
                 .subscribeOn(Schedulers.immediate())
+                .map(new UnwrapResponse<InstagramApi.InstagramResponse<InstagramApi.User>>())
+                .map(new UnwrapInstagramResponse<InstagramApi.User>())
                 .subscribe(new BaseObserver<InstagramApi.User>() {
                     @Override public void onNext(InstagramApi.User user) {
-                        final UserSyncer userSyncer = new UserSyncer(bsPixDatabase);
                         userSyncer.sync(user, true);
                     }
                 });
 
+        final MediaSyncer mediaSyncer = new MediaSyncer(bsPixDatabase);
         instagramApi.getRecentMedia()
-                .map(new UnwrapResponse<InstagramApi.InstagramResponse<List<InstagramApi.Media>>>())
-                .map(new UnwrapInstagramResponse<List<InstagramApi.Media>>())
                 .observeOn(Schedulers.immediate())
                 .subscribeOn(Schedulers.immediate())
+                .map(new UnwrapResponse<InstagramApi.InstagramResponse<List<InstagramApi.Media>>>())
+                .map(new UnwrapInstagramResponse<List<InstagramApi.Media>>())
                 .subscribe(new BaseObserver<List<InstagramApi.Media>>() {
                     @Override public void onNext(List<InstagramApi.Media> mediaList) {
-                        final MediaSyncer mediaSyncer = new MediaSyncer(bsPixDatabase);
                         mediaSyncer.sync(mediaList);
+                    }
+                });
+
+        final FollowsSyncer followsSyncer = new FollowsSyncer(bsPixDatabase);
+        instagramApi.getFollows()
+                .observeOn(Schedulers.immediate())
+                .subscribeOn(Schedulers.immediate())
+                .map(new UnwrapResponse<InstagramApi.InstagramResponse<List<InstagramApi.FollowedUser>>>())
+                .map(new UnwrapInstagramResponse<List<InstagramApi.FollowedUser>>())
+                .subscribe(new BaseObserver<List<InstagramApi.FollowedUser>>() {
+                    @Override public void onNext(List<InstagramApi.FollowedUser> followedUsers) {
+                        followsSyncer.sync(followedUsers);
                     }
                 });
     }
