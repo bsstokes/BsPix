@@ -30,6 +30,9 @@ public interface InstagramApi {
     @GET("users/self/media/recent/")
     Observable<Response<InstagramResponse<List<Media>>>> getRecentMedia();
 
+    @GET("users/self/follows")
+    Observable<Response<InstagramResponse<List<FollowedUser>>>> getFollows();
+
     class InstagramResponse<T> {
         public T data;
     }
@@ -50,7 +53,12 @@ public interface InstagramApi {
         }
     }
 
-
+    class FollowedUser {
+        public String id;
+        public String username;
+        public String profile_picture;
+        public String full_name;
+    }
 
     class Media {
         public String id;
