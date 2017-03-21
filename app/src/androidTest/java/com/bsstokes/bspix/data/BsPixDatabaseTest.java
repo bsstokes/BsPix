@@ -82,8 +82,7 @@ public class BsPixDatabaseTest {
         final User user1 = user.toBuilder().id("1").build();
         final User user2 = user.toBuilder().id("2").build();
 
-        database.putUser(user1);
-        database.putUser(user2);
+        database.putUsers(user1, user2);
 
         assertThat(sync(database.getUsers()), contains(user1, user2));
     }
@@ -104,8 +103,7 @@ public class BsPixDatabaseTest {
         final User user1NotSelf = user.toBuilder().id("1").self(false).build();
         final User user2Self = user.toBuilder().id("2").self(true).build();
 
-        database.putUser(user1NotSelf);
-        database.putUser(user2Self);
+        database.putUsers(user1NotSelf, user2Self);
 
         final User foundUser = sync(database.getSelf());
         assertEquals(user2Self, foundUser);

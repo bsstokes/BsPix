@@ -25,6 +25,22 @@ public class BsPixDatabase {
         briteDatabase.insert(UsersMapping.Table.NAME, UsersMapping.toContentValues(user), CONFLICT_REPLACE);
     }
 
+    public void putUsers(@NonNull User... users) {
+        putUsers(Arrays.asList(users));
+    }
+
+    public void putUsers(@NonNull List<User> users) {
+        final BriteDatabase.Transaction transaction = briteDatabase.newTransaction();
+        try {
+            for (final User user : users) {
+                briteDatabase.insert(UsersMapping.Table.NAME, UsersMapping.toContentValues(user), CONFLICT_REPLACE);
+            }
+            transaction.markSuccessful();
+        } finally {
+            transaction.end();
+        }
+    }
+
     public Observable<List<User>> getUsers() {
         final String query = "SELECT * FROM " + UsersMapping.Table.NAME;
         return briteDatabase.createQuery(UsersMapping.Table.NAME, query)
