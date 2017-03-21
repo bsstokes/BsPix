@@ -4,11 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.bsstokes.bspix.app.home.follows.FollowsFragment;
 import com.bsstokes.bspix.app.home.my_media.MyMediaFragment;
 
-public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
+class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    public HomeViewPagerAdapter(FragmentManager fm) {
+    HomeViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -16,6 +17,8 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case (0):
                 return "My Photos";
+            case (1):
+                return "Follows";
             default:
                 return null;
         }
@@ -24,12 +27,15 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override public Fragment getItem(int position) {
         switch (position) {
             case (0):
-                return new MyMediaFragment();
+                return MyMediaFragment.create();
+            case (1):
+                return FollowsFragment.create();
+            default:
+                return null;
         }
-        return null;
     }
 
     @Override public int getCount() {
-        return 1;
+        return 2;
     }
 }

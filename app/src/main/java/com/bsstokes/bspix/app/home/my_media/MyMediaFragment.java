@@ -28,6 +28,10 @@ import butterknife.Unbinder;
 
 public class MyMediaFragment extends Fragment implements MediaAdapter.OnClickListener, MyMediaController.View {
 
+    @NonNull public static MyMediaFragment create() {
+        return new MyMediaFragment();
+    }
+
     @BindView(R.id.mediaRecyclerView) RecyclerView mediaRecyclerView;
 
     @Inject BsPixDatabase bsPixDatabase;
