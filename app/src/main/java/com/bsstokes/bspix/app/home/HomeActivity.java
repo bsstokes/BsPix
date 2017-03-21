@@ -10,10 +10,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
+import com.bsstokes.bspix.app.media_item.MediaItemActivity;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.Media;
@@ -107,6 +107,6 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
     }
 
     @Override public void launchMediaItem(@NonNull String mediaItemId) {
-        Toast.makeText(this, "mediaItem " + mediaItemId, Toast.LENGTH_SHORT).show();
+        startActivity(MediaItemActivity.createIntent(this, mediaItemId));
     }
 }
