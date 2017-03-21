@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.ViewHolder> {
+public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.ViewHolder> {
 
     public interface OnClickListener {
         void onClickMediaItem(@NonNull String mediaId);
@@ -29,7 +29,7 @@ class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.ViewHolder> {
     @NonNull private List<Media> mediaList = new ArrayList<>();
     @NonNull private final OnClickListener onClickListener;
 
-    MediaAdapter(@NonNull OnClickListener onClickListener, @NonNull Picasso picasso) {
+    public MediaAdapter(@NonNull OnClickListener onClickListener, @NonNull Picasso picasso) {
         this.onClickListener = onClickListener;
         this.picasso = picasso;
     }

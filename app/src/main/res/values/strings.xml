@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">BsPix</string>
     <string name="photo">Photo</string>
+    <string name="my_photos">My Photos</string>
+    <string name="follows">Follows</string>
+    <string name="favorites">Favorites</string>
 </resources>
