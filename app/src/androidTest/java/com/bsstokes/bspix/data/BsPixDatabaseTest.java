@@ -21,6 +21,8 @@ import static com.bsstokes.bspix.data.BsPixDatabase.NO_MEDIA;
 import static com.bsstokes.bspix.data.BsPixDatabase.NO_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -107,6 +109,19 @@ public class BsPixDatabaseTest {
 
         final User foundUser = sync(database.getSelf());
         assertEquals(user2Self, foundUser);
+    }
+
+    @Test
+    public void getFollows_only_returns_non_self_users() {
+        final User self1 = user.toBuilder().id("1").self(true).build();
+        final User follow2 = user.toBuilder().id("2").self(false).build();
+        final User follow3 = user.toBuilder().id("3").self(false).build();
+
+        database.putUsers(self1, follow2, follow3);
+
+        final List<User> follows = sync(database.getFollows());
+        assertThat(follows, hasSize(2));
+        assertThat(follows, containsInAnyOrder(follow2, follow3));
     }
 
     private final Media media = Media.builder()

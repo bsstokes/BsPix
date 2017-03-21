@@ -47,6 +47,15 @@ public class BsPixDatabase {
                 .mapToList(UsersMapping.MAPPER);
     }
 
+    public Observable<List<User>> getFollows() {
+        final String query = ""
+                + "SELECT *"
+                + " FROM " + UsersMapping.Table.NAME
+                + " WHERE " + UsersMapping.Columns.SELF + "=0";
+        return briteDatabase.createQuery(UsersMapping.Table.NAME, query)
+                .mapToList(UsersMapping.MAPPER);
+    }
+
     public Observable<User> getSelf() {
         final String query = ""
                 + "SELECT *"
