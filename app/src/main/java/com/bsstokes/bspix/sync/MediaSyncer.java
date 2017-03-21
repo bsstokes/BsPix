@@ -34,6 +34,7 @@ class MediaSyncer {
         return Media.builder()
                 .id(apiMedia.id)
                 .userId(apiMedia.user.id)
+                .userName(apiMedia.user.username)
                 .caption(apiMedia.caption.text)
                 .type(apiMedia.type)
                 .tags(tags)

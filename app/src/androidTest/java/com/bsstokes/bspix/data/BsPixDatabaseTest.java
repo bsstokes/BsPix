@@ -114,6 +114,7 @@ public class BsPixDatabaseTest {
     private final Media media = Media.builder()
             .id("456")
             .userId("789")
+            .userName("media user name")
             .caption("My caption")
             .type("image")
             .tags("tag1,tag2")

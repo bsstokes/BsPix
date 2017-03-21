@@ -7,6 +7,7 @@ public class Migration002_CreateMedia implements Migration {
         final String CREATE_MEDIA = "CREATE TABLE `media` ("
                 + "`_id` VARCHAR PRIMARY KEY,"
                 + "`userId` VARCHAR,"
+                + "`userName` VARCHAR,"
                 + "`caption` VARCHAR,"
                 + "`type` VARCHAR,"
                 + "`tags` VARCHAR,"

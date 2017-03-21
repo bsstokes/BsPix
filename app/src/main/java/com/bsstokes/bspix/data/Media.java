@@ -10,6 +10,8 @@ public abstract class Media {
 
     @Nullable public abstract String userId();
 
+    @Nullable public abstract String userName();
+
     @Nullable public abstract String caption();
 
     @Nullable public abstract String type();
@@ -53,6 +55,8 @@ public abstract class Media {
         public abstract Builder id(String id);
 
         public abstract Builder userId(String userId);
+
+        public abstract Builder userName(String userName);
 
         public abstract Builder caption(String caption);
 

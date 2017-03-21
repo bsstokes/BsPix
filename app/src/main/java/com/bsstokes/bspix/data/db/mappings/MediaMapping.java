@@ -15,6 +15,7 @@ public class MediaMapping {
     public interface Columns {
         String ID = "_id";
         String USER_ID = "userId";
+        String USER_NAME = "userName";
         String CAPTION = "caption";
         String TYPE = "type";
         String TAGS = "tags";
@@ -40,6 +41,7 @@ public class MediaMapping {
         return Media.builder()
                 .id(Db.getString(cursor, Columns.ID))
                 .userId(Db.getString(cursor, Columns.USER_ID))
+                .userName(Db.getString(cursor, Columns.USER_NAME))
                 .caption(Db.getString(cursor, Columns.CAPTION))
                 .type(Db.getString(cursor, Columns.TYPE))
                 .tags(Db.getString(cursor, Columns.TAGS))
@@ -60,6 +62,7 @@ public class MediaMapping {
         final ContentValues contentValues = new ContentValues();
         contentValues.put(Columns.ID, media.id());
         contentValues.put(Columns.USER_ID, media.userId());
+        contentValues.put(Columns.USER_NAME, media.userName());
         contentValues.put(Columns.CAPTION, media.caption());
         contentValues.put(Columns.TYPE, media.type());
         contentValues.put(Columns.TAGS, media.tags());
