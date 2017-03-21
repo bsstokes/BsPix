@@ -28,6 +28,8 @@ class HomeController {
         void setCounts(int posts, int followers, int following);
 
         void setMedia(@NonNull List<Media> mediaList);
+
+        void launchMediaItem(@NonNull String mediaItemId);
     }
 
     @NonNull private final View view;
@@ -72,5 +74,9 @@ class HomeController {
 
     void unload() {
         subscriptions.clear();
+    }
+
+    void onClickMediaItem(@NonNull String mediaItemId) {
+        view.launchMediaItem(mediaItemId);
     }
 }

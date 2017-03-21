@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
@@ -26,7 +27,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity implements HomeController.View {
+public class HomeActivity extends AppCompatActivity implements HomeController.View, MediaAdapter.OnClickListener {
 
     @BindView(R.id.profilePictureImageView) ImageView profilePictureImageView;
     @BindView(R.id.nameTextView) TextView nameTextView;
@@ -58,7 +59,7 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
         BsPixApplication.getBsPixApplication(this).getAppComponent().inject(this);
 
         mediaRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        mediaAdapter = new MediaAdapter(picasso);
+        mediaAdapter = new MediaAdapter(this, picasso);
         mediaRecyclerView.setAdapter(mediaAdapter);
 
         homeController = new HomeController(this, bsPixDatabase);
@@ -99,5 +100,13 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
 
     @Override public void setMedia(@NonNull List<Media> mediaList) {
         mediaAdapter.setMedia(mediaList);
+    }
+
+    @Override public void onClickMediaItem(@NonNull String mediaId) {
+        homeController.onClickMediaItem(mediaId);
+    }
+
+    @Override public void launchMediaItem(@NonNull String mediaItemId) {
+        Toast.makeText(this, "mediaItem " + mediaItemId, Toast.LENGTH_SHORT).show();
     }
 }
