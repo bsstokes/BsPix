@@ -3,6 +3,7 @@ package com.bsstokes.bspix.di;
 import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.app.home.HomeActivity;
 import com.bsstokes.bspix.app.main.MainActivity;
+import com.bsstokes.bspix.app.media_item.MediaItemActivity;
 import com.bsstokes.bspix.auth.LoginActivity;
 import com.bsstokes.bspix.sync.SyncService;
 
@@ -16,6 +17,8 @@ public interface AppComponent {
     void inject(LoginActivity activity);
 
     void inject(MainActivity activity);
+
+    void inject(MediaItemActivity activity);
 
     // Services
     void inject(SyncService service);
