@@ -1,6 +1,7 @@
 package com.bsstokes.bspix.app.user;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.User;
@@ -13,7 +14,13 @@ import rx.subscriptions.CompositeSubscription;
 class UserController {
 
     interface View {
+        void setFullName(@Nullable String fullName);
 
+        void setUserName(@Nullable String userName);
+
+        void loadProfilePicture(@Nullable String profilePictureUrl);
+
+        void finish();
     }
 
     @NonNull private final View view;
@@ -25,12 +32,16 @@ class UserController {
         this.bsPixDatabase = bsPixDatabase;
     }
 
-    void load(@NonNull String userId) {
+    void load(@NonNull final String userId) {
         final Subscription getUser = bsPixDatabase.getUser(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<User>() {
                     @Override public void onNext(User user) {
-                        onLoad(user);
+                        if (null == user) {
+                            onFail();
+                        } else {
+                            onLoad(user);
+                        }
                     }
                 });
         subscriptions.add(getUser);
@@ -40,7 +51,13 @@ class UserController {
         subscriptions.clear();
     }
 
-    private void onLoad(User user) {
+    private void onLoad(@NonNull User user) {
+        view.loadProfilePicture(user.profilePicture());
+        view.setFullName(user.fullName());
+        view.setUserName(user.userName());
+    }
 
+    private void onFail() {
+        view.finish();
     }
 }

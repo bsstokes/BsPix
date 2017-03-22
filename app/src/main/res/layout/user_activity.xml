@@ -1,12 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/profile_picture_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/profile_picture"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlHardcoded"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="User"/>
-</LinearLayout>
+        android:id="@+id/full_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintLeft_toLeftOf="@+id/profile_picture_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/profile_picture_image_view"
+        tools:ignore="RtlHardcoded"
+        tools:text="Full Name"/>
+
+    <TextView
+        android:id="@+id/user_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintLeft_toLeftOf="@+id/full_name_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/full_name_text_view"
+        tools:ignore="RtlHardcoded"
+        tools:text="Username"/>
+</android.support.constraint.ConstraintLayout>
