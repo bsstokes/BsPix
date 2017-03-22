@@ -82,5 +82,17 @@ public class SyncService extends IntentService {
                         followsSyncer.sync(followedUsers);
                     }
                 });
+
+        final LikedMediaSyncer likedMediaSyncer = new LikedMediaSyncer(bsPixDatabase);
+        instagramApi.getLikedMedia()
+                .subscribeOn(Schedulers.immediate())
+                .observeOn(Schedulers.immediate())
+                .map(new UnwrapResponse<InstagramApi.InstagramResponse<List<InstagramApi.Media>>>())
+                .map(new UnwrapInstagramResponse<List<InstagramApi.Media>>())
+                .subscribe(new BaseObserver<List<InstagramApi.Media>>() {
+                    @Override public void onNext(List<InstagramApi.Media> likedMediaList) {
+                        likedMediaSyncer.sync(likedMediaList);
+                    }
+                });
     }
 }

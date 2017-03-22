@@ -27,7 +27,7 @@ class MediaSyncer {
         bsPixDatabase.putMedia(mediaList);
     }
 
-    private Media convert(InstagramApi.Media apiMedia) {
+    static Media convert(InstagramApi.Media apiMedia) {
         final String tags = (null == apiMedia.tags) ? "" : StringUtils.join(", ", apiMedia.tags);
         final String location = (null == apiMedia.location) ? "" : apiMedia.location.name;
 
