@@ -26,6 +26,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeTrue;
 
 // Test my implementation of an SqlBrite-backed database. This also tests the mappings between the
 // data classes and the SQLite Cursor and ContentValues.
@@ -237,5 +239,29 @@ public class BsPixDatabaseTest {
         final Media likedMedia = media.toBuilder().id(LIKED_ID).build();
         database.putLikedMedia(likedMedia);
         assertTrue(sync(database.isLikedMedia(LIKED_ID)));
+    }
+
+    @Test
+    public void can_set_not_liked_media_as_liked() {
+        final String MEDIA_ID = "123";
+        final Media newMedia = media.toBuilder().id(MEDIA_ID).build();
+
+        database.putMedia(newMedia);
+        assumeFalse(sync(database.isLikedMedia(MEDIA_ID)));
+
+        database.setMediaAsLiked(MEDIA_ID);
+        assertTrue(sync(database.isLikedMedia(MEDIA_ID)));
+    }
+
+    @Test
+    public void can_set_liked_media_as_not_liked() {
+        final String MEDIA_ID = "321";
+        final Media newMedia = media.toBuilder().id(MEDIA_ID).build();
+
+        database.putLikedMedia(newMedia);
+        assumeTrue(sync(database.isLikedMedia(MEDIA_ID)));
+
+        database.setMediaAsNotLiked(MEDIA_ID);
+        assertFalse(sync(database.isLikedMedia(MEDIA_ID)));
     }
 }

@@ -184,6 +184,15 @@ public class BsPixDatabase {
         }
     }
 
+    public void setMediaAsLiked(@NonNull String mediaId) {
+        briteDatabase.insert(LikedMediaMapping.Table.NAME, LikedMediaMapping.toContentValues(mediaId), CONFLICT_REPLACE);
+    }
+
+    public void setMediaAsNotLiked(@NonNull String mediaId) {
+        final String whereClause = LikedMediaMapping.Columns.ID + "=?";
+        briteDatabase.delete(LikedMediaMapping.Table.NAME, whereClause, mediaId);
+    }
+
     public static final User NO_USER = User.builder().build();
     public static final Media NO_MEDIA = Media.builder().build();
 }
