@@ -7,6 +7,7 @@ import com.bsstokes.bspix.app.home.liked_media.LikedMediaFragment;
 import com.bsstokes.bspix.app.home.my_media.MyMediaFragment;
 import com.bsstokes.bspix.app.main.MainActivity;
 import com.bsstokes.bspix.app.media_item.MediaItemActivity;
+import com.bsstokes.bspix.app.user.UserActivity;
 import com.bsstokes.bspix.auth.LoginActivity;
 import com.bsstokes.bspix.sync.SyncService;
 
@@ -22,6 +23,8 @@ public interface AppComponent {
     void inject(MainActivity activity);
 
     void inject(MediaItemActivity activity);
+
+    void inject(UserActivity activity);
 
     // Fragment
     void inject(FollowsFragment fragment);

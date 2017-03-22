@@ -24,6 +24,7 @@
             android:name=".auth.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".app.media_item.MediaItemActivity"/>
+        <activity android:name=".app.user.UserActivity"/>
 
         <service
             android:name=".sync.SyncService"
