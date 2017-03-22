@@ -28,7 +28,7 @@ public class BsPixDatabase {
         briteDatabase.insert(UsersMapping.Table.NAME, UsersMapping.toContentValues(user), CONFLICT_REPLACE);
     }
 
-    public void putUsers(@NonNull User... users) {
+    void putUsers(@NonNull User... users) {
         putUsers(Arrays.asList(users));
     }
 
@@ -44,7 +44,7 @@ public class BsPixDatabase {
         }
     }
 
-    public Observable<List<User>> getUsers() {
+    Observable<List<User>> getUsers() {
         final String query = "SELECT * FROM " + UsersMapping.Table.NAME;
         return briteDatabase.createQuery(UsersMapping.Table.NAME, query)
                 .mapToList(UsersMapping.MAPPER);
@@ -80,10 +80,17 @@ public class BsPixDatabase {
     }
 
     public void deleteAllUsers() {
-        throw new UnsupportedOperationException("not implemented");
+        briteDatabase.delete(UsersMapping.Table.NAME, DELETE_ALL_ROWS);
     }
 
-    public void putMedia(@NonNull Media... mediaList) {
+    Observable<List<Media>> getAllMedia() {
+        final String query = ""
+                + "SELECT * FROM " + MediaMapping.Table.NAME;
+        return briteDatabase.createQuery(MediaMapping.Table.NAME, query)
+                .mapToList(MediaMapping.MAPPER);
+    }
+
+    void putMedia(@NonNull Media... mediaList) {
         putMedia(Arrays.asList(mediaList));
     }
 
@@ -135,8 +142,9 @@ public class BsPixDatabase {
 
     }
 
+
     public void deleteAllMedia() {
-        throw new UnsupportedOperationException("not implemented");
+        briteDatabase.delete(MediaMapping.Table.NAME, DELETE_ALL_ROWS);
     }
 
     public Observable<List<Media>> getLikedMedia() {
@@ -170,14 +178,14 @@ public class BsPixDatabase {
                 }, Boolean.FALSE);
     }
 
-    public void putLikedMedia(@NonNull Media... mediaList) {
+    void putLikedMedia(@NonNull Media... mediaList) {
         putLikedMedia(Arrays.asList(mediaList));
     }
 
     public void putLikedMedia(@NonNull List<Media> mediaList) {
         final BriteDatabase.Transaction transaction = briteDatabase.newTransaction();
         try {
-            briteDatabase.delete(LikedMediaMapping.Table.NAME, "1=1");
+            briteDatabase.delete(LikedMediaMapping.Table.NAME, DELETE_ALL_ROWS);
 
             for (final Media media : mediaList) {
                 // Insert media into table
@@ -202,9 +210,11 @@ public class BsPixDatabase {
     }
 
     public void deleteAllLikedMedia() {
-        throw new UnsupportedOperationException("not implemented");
+        briteDatabase.delete(LikedMediaMapping.Table.NAME, DELETE_ALL_ROWS);
     }
 
-    public static final User NO_USER = User.builder().build();
-    public static final Media NO_MEDIA = Media.builder().build();
+    static final User NO_USER = User.builder().build();
+    static final Media NO_MEDIA = Media.builder().build();
+
+    private final String DELETE_ALL_ROWS = null;
 }

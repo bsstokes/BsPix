@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeThat;
 import static org.junit.Assume.assumeTrue;
 
 // Test my implementation of an SqlBrite-backed database. This also tests the mappings between the
@@ -263,5 +264,40 @@ public class BsPixDatabaseTest {
 
         database.setMediaAsNotLiked(MEDIA_ID);
         assertFalse(sync(database.isLikedMedia(MEDIA_ID)));
+    }
+
+    @Test
+    public void deleteAllUsers_deletes_all_users() {
+        final User user1 = user.toBuilder().id("1").self(true).build();
+        final User user2 = user.toBuilder().id("2").self(false).build();
+        database.putUsers(user1, user2);
+
+        assumeThat(sync(database.getUsers()), containsInAnyOrder(user1, user2));
+
+        database.deleteAllUsers();
+        assertThat(sync(database.getUsers()), hasSize(0));
+    }
+
+    @Test
+    public void deleteAllMedia_deletes_all_media() {
+        final Media media1 = media.toBuilder().id("1").build();
+        final Media media2 = media.toBuilder().id("2").build();
+
+        database.putMedia(media1, media2);
+        assumeThat(sync(database.getAllMedia()), containsInAnyOrder(media1, media2));
+
+        database.deleteAllMedia();
+        assertThat(sync(database.getAllMedia()), hasSize(0));
+    }
+
+    @Test
+    public void deleteAllLikedMedia_deletes_all_liked_media() {
+        final Media likedMedia = media.toBuilder().id("1").build();
+
+        database.putLikedMedia(likedMedia);
+        assumeThat(sync(database.getLikedMedia()), containsInAnyOrder(likedMedia));
+
+        database.deleteAllLikedMedia();
+        assertThat(sync(database.getLikedMedia()), hasSize(0));
     }
 }
