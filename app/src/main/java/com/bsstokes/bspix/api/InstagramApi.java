@@ -1,10 +1,13 @@
 package com.bsstokes.bspix.api;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import okhttp3.HttpUrl;
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 public interface InstagramApi {
@@ -35,6 +38,9 @@ public interface InstagramApi {
 
     @GET("users/self/media/liked")
     Observable<Response<InstagramResponse<List<Media>>>> getLikedMedia();
+
+    @GET("users/{user_id}/media/recent/")
+    Observable<Response<InstagramResponse<List<Media>>>> getUserMedia(@NonNull @Path("user_id") String userId);
 
     class InstagramResponse<T> {
         public T data;
