@@ -183,4 +183,42 @@ public class BsPixDatabaseTest {
         database.putMedia(media.toBuilder().id("2").build());
         assertEquals(NO_MEDIA, sync(database.getMedia("1")));
     }
+
+    @Test
+    public void getLikedMedia_returns_empty_list_when_no_likes() {
+        assertTrue(sync(database.getLikedMedia()).isEmpty());
+    }
+
+    @Test
+    public void getLikedMedia_returns_only_liked_media() {
+        final Media media1Liked = media.toBuilder().id("1").build();
+        final Media media2Liked = media.toBuilder().id("2").build();
+        database.putLikedMedia(media1Liked, media2Liked);
+
+        final Media media3NotLiked = media.toBuilder().id("3").build();
+        database.putMedia(media3NotLiked);
+
+        final List<Media> likedMediaList = sync(database.getLikedMedia());
+        assertThat(likedMediaList, hasSize(2));
+        assertThat(likedMediaList, containsInAnyOrder(media1Liked, media2Liked));
+    }
+
+    @Test
+    public void putLikedMedia_resets_liked_media_when_called_again() {
+        final Media media1Liked = media.toBuilder().id("1").build();
+        final Media media2Liked = media.toBuilder().id("2").build();
+        database.putLikedMedia(media1Liked, media2Liked);
+
+        final List<Media> firstLikedMediaList = sync(database.getLikedMedia());
+        assertThat(firstLikedMediaList, hasSize(2));
+        assertThat(firstLikedMediaList, containsInAnyOrder(media1Liked, media2Liked));
+
+        final Media media3Liked = media.toBuilder().id("3").build();
+        final Media media4Liked = media.toBuilder().id("4").build();
+        database.putLikedMedia(media3Liked, media4Liked);
+
+        final List<Media> secondLikedMediaList = sync(database.getLikedMedia());
+        assertThat(secondLikedMediaList, hasSize(2));
+        assertThat(secondLikedMediaList, containsInAnyOrder(media3Liked, media4Liked));
+    }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.bsstokes.bspix.data.db.migrations.Migration;
 import com.bsstokes.bspix.data.db.migrations.Migration001_CreateUsers;
 import com.bsstokes.bspix.data.db.migrations.Migration002_CreateMedia;
+import com.bsstokes.bspix.data.db.migrations.Migration003_CreateLikedMedia;
 import com.bsstokes.bspix.data.db.migrations.Migrator;
 
 public class BsPixSQLiteOpenHelper extends SQLiteOpenHelper {
@@ -26,7 +27,8 @@ public class BsPixSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final Migrator MIGRATOR = new Migrator(new Migration[]{
             new Migration001_CreateUsers(),
-            new Migration002_CreateMedia()
+            new Migration002_CreateMedia(),
+            new Migration003_CreateLikedMedia()
     });
 
     private BsPixSQLiteOpenHelper(@NonNull Context context, String databaseName) {

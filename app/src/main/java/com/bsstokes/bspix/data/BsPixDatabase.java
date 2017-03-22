@@ -2,6 +2,7 @@ package com.bsstokes.bspix.data;
 
 import android.support.annotation.NonNull;
 
+import com.bsstokes.bspix.data.db.mappings.LikedMediaMapping;
 import com.bsstokes.bspix.data.db.mappings.MediaMapping;
 import com.bsstokes.bspix.data.db.mappings.UsersMapping;
 import com.squareup.sqlbrite.BriteDatabase;
@@ -126,6 +127,44 @@ public class BsPixDatabase {
         return briteDatabase.createQuery(MediaMapping.Table.NAME, query, userId)
                 .mapToList(MediaMapping.MAPPER);
 
+    }
+
+    public Observable<List<Media>> getLikedMedia() {
+        final String mediaAllFields = MediaMapping.Table.NAME + ".*";
+        final String mediaId = MediaMapping.Table.NAME + "." + MediaMapping.Columns.ID;
+        final String likedMediaId = LikedMediaMapping.Table.NAME + "." + LikedMediaMapping.Columns.ID;
+
+        final List<String> tables = Arrays.asList(MediaMapping.Table.NAME, LikedMediaMapping.Table.NAME);
+
+        final String query = ""
+                + "SELECT " + mediaAllFields
+                + " FROM " + MediaMapping.Table.NAME
+                + " JOIN " + LikedMediaMapping.Table.NAME
+                + " WHERE " + mediaId + "=" + likedMediaId;
+        return briteDatabase.createQuery(tables, query)
+                .mapToList(MediaMapping.MAPPER);
+    }
+
+    public void putLikedMedia(@NonNull Media... mediaList) {
+        putLikedMedia(Arrays.asList(mediaList));
+    }
+
+    public void putLikedMedia(@NonNull List<Media> mediaList) {
+        final BriteDatabase.Transaction transaction = briteDatabase.newTransaction();
+        try {
+            briteDatabase.delete(LikedMediaMapping.Table.NAME, "1=1");
+
+            for (final Media media : mediaList) {
+                // Insert media into table
+                briteDatabase.insert(MediaMapping.Table.NAME, MediaMapping.toContentValues(media), CONFLICT_REPLACE);
+                // Insert entry into liked media table
+                briteDatabase.insert(LikedMediaMapping.Table.NAME, LikedMediaMapping.toContentValues(media.id()), CONFLICT_REPLACE);
+            }
+
+            transaction.markSuccessful();
+        } finally {
+            transaction.end();
+        }
     }
 
     public static final User NO_USER = User.builder().build();
