@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
 import com.bsstokes.bspix.data.BsPixDatabase;
+import com.bsstokes.bspix.sync.SyncService;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -50,6 +51,10 @@ public class UserActivity extends AppCompatActivity implements UserController.Vi
 
         if (null != getIntent()) {
             userId = getIntent().getStringExtra(EXTRA_USER_ID);
+        }
+
+        if (null != userId) {
+            SyncService.startActionSyncUser(this, userId);
         }
     }
 
