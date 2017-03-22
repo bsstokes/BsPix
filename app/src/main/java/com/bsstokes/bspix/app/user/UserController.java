@@ -6,6 +6,7 @@ import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.User;
 import com.bsstokes.bspix.rx.BaseObserver;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -25,13 +26,14 @@ class UserController {
     }
 
     void load(@NonNull String userId) {
-        bsPixDatabase.getUser(userId)
+        final Subscription getUser = bsPixDatabase.getUser(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<User>() {
                     @Override public void onNext(User user) {
                         onLoad(user);
                     }
                 });
+        subscriptions.add(getUser);
     }
 
     void unload() {
