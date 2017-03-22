@@ -6,4 +6,5 @@
     <string name="favorites">Favorites</string>
     <string name="profile_picture">Profile picture</string>
     <string name="like_or_unlike">Like or unliked this photo</string>
+    <string name="log_out">Log out</string>
 </resources>

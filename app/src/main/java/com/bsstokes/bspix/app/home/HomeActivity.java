@@ -8,12 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
-import com.bsstokes.bspix.app.media_item.MediaItemActivity;
 import com.bsstokes.bspix.auth.Account;
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.sync.SyncService;
@@ -62,6 +63,21 @@ public class HomeActivity extends AppCompatActivity implements HomeController.Vi
         viewPagerTabLayout.setupWithViewPager(viewPager);
 
         homeController = new HomeController(this, bsPixDatabase);
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if (R.id.log_out_menu_item == item.getItemId()) {
+            account.logOut();
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override protected void onResume() {
