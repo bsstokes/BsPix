@@ -6,21 +6,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
+import com.bsstokes.bspix.app.home.MediaAdapter;
+import com.bsstokes.bspix.app.media_item.MediaItemActivity;
 import com.bsstokes.bspix.data.BsPixDatabase;
+import com.bsstokes.bspix.data.Media;
 import com.bsstokes.bspix.sync.SyncService;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserActivity extends AppCompatActivity implements UserController.View {
+public class UserActivity extends AppCompatActivity implements UserController.View, MediaAdapter.OnClickListener {
 
     @NonNull public static Intent createIntent(@NonNull Context context, @NonNull String userId) {
         final Intent intent = new Intent(context, UserActivity.class);
@@ -33,12 +40,14 @@ public class UserActivity extends AppCompatActivity implements UserController.Vi
     @BindView(R.id.profile_picture_image_view) ImageView profilePictureImageView;
     @BindView(R.id.full_name_text_view) TextView fullNameTextView;
     @BindView(R.id.user_name_text_view) TextView userNameTextView;
+    @BindView(R.id.media_recycler_view) RecyclerView mediaRecyclerView;
 
     @Inject BsPixDatabase bsPixDatabase;
     @Inject Picasso picasso;
 
-    private UserController userController;
     @Nullable private String userId;
+    private MediaAdapter mediaAdapter;
+    private UserController userController;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +55,10 @@ public class UserActivity extends AppCompatActivity implements UserController.Vi
         ButterKnife.bind(this);
 
         BsPixApplication.getBsPixApplication(this).getAppComponent().inject(this);
+
+        mediaRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mediaAdapter = new MediaAdapter(this, picasso);
+        mediaRecyclerView.setAdapter(mediaAdapter);
 
         userController = new UserController(this, bsPixDatabase);
 
@@ -88,5 +101,17 @@ public class UserActivity extends AppCompatActivity implements UserController.Vi
         } else {
             picasso.load(profilePictureUrl).into(profilePictureImageView);
         }
+    }
+
+    @Override public void onClickMediaItem(@NonNull String mediaId) {
+        userController.onClickMediaItem(mediaId);
+    }
+
+    @Override public void launchMediaItem(String mediaItemId) {
+        startActivity(MediaItemActivity.createIntent(this, mediaItemId));
+    }
+
+    @Override public void setMedia(@NonNull List<Media> mediaList) {
+        mediaAdapter.setMedia(mediaList);
     }
 }
