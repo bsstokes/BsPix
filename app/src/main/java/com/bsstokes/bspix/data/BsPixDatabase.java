@@ -1,5 +1,6 @@
 package com.bsstokes.bspix.data;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.bsstokes.bspix.data.db.mappings.LikedMediaMapping;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import rx.Observable;
+import rx.functions.Func1;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 
@@ -143,6 +145,21 @@ public class BsPixDatabase {
                 + " WHERE " + mediaId + "=" + likedMediaId;
         return briteDatabase.createQuery(tables, query)
                 .mapToList(MediaMapping.MAPPER);
+    }
+
+    public Observable<Boolean> isLikedMedia(@NonNull String mediaId) {
+        final List<String> tables = Arrays.asList(MediaMapping.Table.NAME, LikedMediaMapping.Table.NAME);
+        final String query = ""
+                + "SELECT *"
+                + " FROM " + LikedMediaMapping.Table.NAME
+                + " WHERE " + LikedMediaMapping.Columns.ID + "=?";
+        return briteDatabase.createQuery(tables, query, mediaId)
+                .mapToOneOrDefault(new Func1<Cursor, Boolean>() {
+                    @Override public Boolean call(Cursor cursor) {
+                        // If there is an entry at all, return true
+                        return true;
+                    }
+                }, Boolean.FALSE);
     }
 
     public void putLikedMedia(@NonNull Media... mediaList) {

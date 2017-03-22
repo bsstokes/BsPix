@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 // Test my implementation of an SqlBrite-backed database. This also tests the mappings between the
@@ -220,5 +221,21 @@ public class BsPixDatabaseTest {
         final List<Media> secondLikedMediaList = sync(database.getLikedMedia());
         assertThat(secondLikedMediaList, hasSize(2));
         assertThat(secondLikedMediaList, containsInAnyOrder(media3Liked, media4Liked));
+    }
+
+    @Test
+    public void isLikedMedia_returns_false_if_the_Media_is_not_liked() {
+        final String HATED_ID = "1";
+        final Media hatedMedia = media.toBuilder().id(HATED_ID).build();
+        database.putMedia(hatedMedia);
+        assertFalse(sync(database.isLikedMedia(HATED_ID)));
+    }
+
+    @Test
+    public void isLikedMedia_returns_true_if_the_Media_is_not_liked() {
+        final String LIKED_ID = "3";
+        final Media likedMedia = media.toBuilder().id(LIKED_ID).build();
+        database.putLikedMedia(likedMedia);
+        assertTrue(sync(database.isLikedMedia(LIKED_ID)));
     }
 }
