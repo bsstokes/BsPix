@@ -79,6 +79,10 @@ public class BsPixDatabase {
                 .mapToOneOrDefault(UsersMapping.MAPPER, NO_USER);
     }
 
+    public void deleteAllUsers() {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
     public void putMedia(@NonNull Media... mediaList) {
         putMedia(Arrays.asList(mediaList));
     }
@@ -129,6 +133,10 @@ public class BsPixDatabase {
         return briteDatabase.createQuery(MediaMapping.Table.NAME, query, userId)
                 .mapToList(MediaMapping.MAPPER);
 
+    }
+
+    public void deleteAllMedia() {
+        throw new UnsupportedOperationException("not implemented");
     }
 
     public Observable<List<Media>> getLikedMedia() {
@@ -191,6 +199,10 @@ public class BsPixDatabase {
     public void setMediaAsNotLiked(@NonNull String mediaId) {
         final String whereClause = LikedMediaMapping.Columns.ID + "=?";
         briteDatabase.delete(LikedMediaMapping.Table.NAME, whereClause, mediaId);
+    }
+
+    public void deleteAllLikedMedia() {
+        throw new UnsupportedOperationException("not implemented");
     }
 
     public static final User NO_USER = User.builder().build();

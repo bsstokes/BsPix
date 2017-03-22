@@ -1,5 +1,6 @@
 package com.bsstokes.bspix.auth;
 
+import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.settings.BsPixSettings;
 
 import org.junit.Before;
@@ -16,11 +17,13 @@ public class AccountTest {
 
     private Account account;
     private BsPixSettings mockSettings;
+    private BsPixDatabase mockDatabase;
 
     @Before
     public void setUp() {
         mockSettings = mock(BsPixSettings.class);
-        account = new Account(mockSettings);
+        mockDatabase = mock(BsPixDatabase.class);
+        account = new Account(mockSettings, mockDatabase);
     }
 
     @Test
@@ -59,5 +62,23 @@ public class AccountTest {
         final String accessToken = "my.access.token";
         when(mockSettings.getAccessToken()).thenReturn(accessToken);
         assertEquals(accessToken, account.getAccessToken());
+    }
+
+    @Test
+    public void logging_out_clears_users() {
+        account.logOut();
+        verify(mockDatabase).deleteAllUsers();
+    }
+
+    @Test
+    public void logging_out_clears_media() {
+        account.logOut();
+        verify(mockDatabase).deleteAllMedia();
+    }
+
+    @Test
+    public void logging_out_clears_liked_media() {
+        account.logOut();
+        verify(mockDatabase).deleteAllLikedMedia();
     }
 }
