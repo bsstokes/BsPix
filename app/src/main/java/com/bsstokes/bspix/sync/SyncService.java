@@ -3,6 +3,9 @@ package com.bsstokes.bspix.sync;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.bsstokes.bspix.api.InstagramApi;
 import com.bsstokes.bspix.api.UnwrapInstagramResponse;
@@ -20,6 +23,10 @@ import rx.schedulers.Schedulers;
 public class SyncService extends IntentService {
 
     private static final String ACTION_SYNC_SELF = "com.bsstokes.bspix.sync.action.SYNC_SELF";
+    private static final String ACTION_SYNC_USER = "com.bsstokes.bspix.sync.action.SYNC_USER";
+    private static final String EXTRA_USER_ID = "USER_ID";
+
+    private static final String TAG = "SyncService";
 
     @Inject BsPixDatabase bsPixDatabase;
     @Inject InstagramApi instagramApi;
@@ -28,10 +35,21 @@ public class SyncService extends IntentService {
         super("SyncService");
     }
 
-    public static void startActionSyncSelf(Context context) {
-        Intent intent = new Intent(context, SyncService.class);
-        intent.setAction(ACTION_SYNC_SELF);
+    public static void startActionSyncSelf(@NonNull Context context) {
+        final Intent intent = createIntent(context, ACTION_SYNC_SELF);
         context.startService(intent);
+    }
+
+    public static void startActionSyncUser(@NonNull Context context, @NonNull String userId) {
+        final Intent intent = createIntent(context, ACTION_SYNC_USER);
+        intent.putExtra(EXTRA_USER_ID, userId);
+        context.startService(intent);
+    }
+
+    @NonNull private static Intent createIntent(@NonNull Context context, @NonNull String action) {
+        final Intent intent = new Intent(context, SyncService.class);
+        intent.setAction(action);
+        return intent;
     }
 
     @Override
@@ -42,6 +60,9 @@ public class SyncService extends IntentService {
             final String action = intent.getAction();
             if (ACTION_SYNC_SELF.equals(action)) {
                 handleActionSyncSelf();
+            } else if (ACTION_SYNC_USER.equals(action)) {
+                final String userId = intent.getStringExtra(EXTRA_USER_ID);
+                handleActionSyncUser(userId);
             }
         }
     }
@@ -92,6 +113,25 @@ public class SyncService extends IntentService {
                 .subscribe(new BaseObserver<List<InstagramApi.Media>>() {
                     @Override public void onNext(List<InstagramApi.Media> likedMediaList) {
                         likedMediaSyncer.sync(likedMediaList);
+                    }
+                });
+    }
+
+    private void handleActionSyncUser(@Nullable final String userId) {
+        if (null == userId) {
+            Log.e(TAG, "handleActionSyncUser: No userId given");
+            return;
+        }
+
+        final MediaSyncer mediaSyncer = new MediaSyncer(bsPixDatabase);
+        instagramApi.getUserMedia(userId)
+                .subscribeOn(Schedulers.immediate())
+                .observeOn(Schedulers.immediate())
+                .map(new UnwrapResponse<InstagramApi.InstagramResponse<List<InstagramApi.Media>>>())
+                .map(new UnwrapInstagramResponse<List<InstagramApi.Media>>())
+                .subscribe(new BaseObserver<List<InstagramApi.Media>>() {
+                    @Override public void onNext(List<InstagramApi.Media> mediaList) {
+                        mediaSyncer.sync(mediaList);
                     }
                 });
     }
