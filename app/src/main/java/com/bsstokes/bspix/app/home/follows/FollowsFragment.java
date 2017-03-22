@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class FollowsFragment extends Fragment implements FollowsController.View, FollowsAdapter.OnClickListener {
 
@@ -55,7 +56,7 @@ public class FollowsFragment extends Fragment implements FollowsController.View,
         followsRecyclerView.setAdapter(followsAdapter);
 
         followsController = new FollowsController(this, bsPixDatabase);
-        followsController.load();
+        followsController.load(AndroidSchedulers.mainThread());
 
         return view;
     }

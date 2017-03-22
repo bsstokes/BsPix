@@ -8,7 +8,7 @@ import com.bsstokes.bspix.rx.BaseObserver;
 
 import java.util.List;
 
-import rx.android.schedulers.AndroidSchedulers;
+import rx.Scheduler;
 import rx.subscriptions.CompositeSubscription;
 
 class FollowsController {
@@ -26,9 +26,9 @@ class FollowsController {
         this.bsPixDatabase = bsPixDatabase;
     }
 
-    void load() {
+    void load(@NonNull Scheduler scheduler) {
         bsPixDatabase.getFollows()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(scheduler)
                 .subscribe(new BaseObserver<List<User>>() {
                     @Override public void onNext(List<User> follows) {
                         view.setFollows(follows);
