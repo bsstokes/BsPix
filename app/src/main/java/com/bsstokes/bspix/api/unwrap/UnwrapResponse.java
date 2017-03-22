@@ -1,4 +1,4 @@
-package com.bsstokes.bspix.api;
+package com.bsstokes.bspix.api.unwrap;
 
 import retrofit2.Response;
 import rx.functions.Func1;

@@ -1,4 +1,6 @@
-package com.bsstokes.bspix.api;
+package com.bsstokes.bspix.api.unwrap;
+
+import com.bsstokes.bspix.api.InstagramApi;
 
 import rx.functions.Func1;
 
