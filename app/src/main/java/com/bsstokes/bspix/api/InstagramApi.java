@@ -33,6 +33,9 @@ public interface InstagramApi {
     @GET("users/self/follows")
     Observable<Response<InstagramResponse<List<FollowedUser>>>> getFollows();
 
+    @GET("users/self/media/liked")
+    Observable<Response<InstagramResponse<List<Media>>>> getLikedMedia();
+
     class InstagramResponse<T> {
         public T data;
     }
