@@ -23,15 +23,21 @@ class MediaItemController {
         void setLocation(@Nullable String location);
 
         void logErrorAndFinish(@NonNull String message);
+
+        void setIsLiked(boolean isLiked);
     }
 
     @NonNull private final View view;
     @NonNull private final BsPixDatabase bsPixDatabase;
+    @NonNull private final LikeAction likeAction;
     @NonNull private final CompositeSubscription subscriptions = new CompositeSubscription();
 
-    MediaItemController(@NonNull View view, @NonNull BsPixDatabase bsPixDatabase) {
+    private boolean isLikedMedia = false;
+
+    MediaItemController(@NonNull View view, @NonNull BsPixDatabase bsPixDatabase, @NonNull LikeAction likeAction) {
         this.view = view;
         this.bsPixDatabase = bsPixDatabase;
+        this.likeAction = likeAction;
     }
 
     void load(@Nullable String mediaItemId) {
@@ -40,18 +46,35 @@ class MediaItemController {
             return;
         }
 
-        final Subscription subscription = bsPixDatabase.getMedia(mediaItemId)
+        final Subscription getMedia = bsPixDatabase.getMedia(mediaItemId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<Media>() {
                     @Override public void onNext(Media media) {
                         onLoad(media);
                     }
                 });
-        subscriptions.add(subscription);
+        subscriptions.add(getMedia);
+
+        final Subscription isLikedMedia = bsPixDatabase.isLikedMedia(mediaItemId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<Boolean>() {
+                    @Override public void onNext(Boolean isLiked) {
+                        onLoadIsLikedMedia(isLiked);
+                    }
+                });
+        subscriptions.add(isLikedMedia);
     }
 
     void unload() {
         subscriptions.clear();
+    }
+
+    void onClickLikeButton(@Nullable String mediaItemId) {
+        if (isLikedMedia) {
+            likeAction.unlike(mediaItemId);
+        } else {
+            likeAction.like(mediaItemId);
+        }
     }
 
     private void onLoad(@NonNull Media media) {
@@ -62,5 +85,10 @@ class MediaItemController {
         view.setUserName(media.userName());
         view.setCaption(media.caption());
         view.setLocation(media.location());
+    }
+
+    private void onLoadIsLikedMedia(boolean isLiked) {
+        this.isLikedMedia = isLiked;
+        view.setIsLiked(isLiked);
     }
 }
