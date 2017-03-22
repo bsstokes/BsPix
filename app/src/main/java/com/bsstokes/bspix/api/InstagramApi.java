@@ -6,7 +6,9 @@ import java.util.List;
 
 import okhttp3.HttpUrl;
 import retrofit2.Response;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -42,8 +44,22 @@ public interface InstagramApi {
     @GET("users/{user_id}/media/recent/")
     Observable<Response<InstagramResponse<List<Media>>>> getUserMedia(@NonNull @Path("user_id") String userId);
 
+    @POST("media/{media_id}/likes")
+    Observable<Response<InstagramResponse<Ignore>>> postLike(@NonNull @Path("media_id") String mediaId);
+
+    @DELETE("media/{media_id}/likes")
+    Observable<Response<InstagramResponse<Ignore>>> deleteLike(@NonNull @Path("media_id") String mediaId);
+
     class InstagramResponse<T> {
+        public Meta meta;
         public T data;
+    }
+
+    class Meta {
+        public int code;
+    }
+
+    class Ignore {
     }
 
     class User {
