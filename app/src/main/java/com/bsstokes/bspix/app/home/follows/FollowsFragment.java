@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.bsstokes.bspix.R;
 import com.bsstokes.bspix.app.BsPixApplication;
+import com.bsstokes.bspix.app.user.UserActivity;
 import com.bsstokes.bspix.data.BsPixDatabase;
 import com.bsstokes.bspix.data.User;
 import com.squareup.picasso.Picasso;
@@ -69,5 +70,13 @@ public class FollowsFragment extends Fragment implements FollowsController.View,
 
     @Override public void setFollows(@NonNull List<User> follows) {
         followsAdapter.setFollows(follows);
+    }
+
+    @Override public void onClickUser(@NonNull String userId) {
+        followsController.onClickUser(userId);
+    }
+
+    @Override public void navigateToUser(@NonNull String userId) {
+        startActivity(UserActivity.createIntent(getActivity(), userId));
     }
 }

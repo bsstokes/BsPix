@@ -15,6 +15,8 @@ class FollowsController {
 
     interface View {
         void setFollows(@NonNull List<User> follows);
+
+        void navigateToUser(@NonNull String userId);
     }
 
     @NonNull private final View view;
@@ -38,5 +40,9 @@ class FollowsController {
 
     void unload() {
         subscriptions.clear();
+    }
+
+    void onClickUser(@NonNull String userId) {
+        view.navigateToUser(userId);
     }
 }

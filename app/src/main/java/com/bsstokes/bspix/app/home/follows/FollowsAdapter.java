@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 class FollowsAdapter extends RecyclerView.Adapter<FollowsAdapter.ViewHolder> {
 
     interface OnClickListener {
+        void onClickUser(@NonNull String userId);
     }
 
     @NonNull private final List<User> follows = new ArrayList<>();
@@ -57,18 +58,23 @@ class FollowsAdapter extends RecyclerView.Adapter<FollowsAdapter.ViewHolder> {
         @BindView(R.id.user_name_text_view) TextView userNameTextView;
         @BindView(R.id.full_name_text_view) TextView fullNameTextView;
 
+        private String userId;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    
+                    if (null != userId) {
+                        onClickListener.onClickUser(userId);
+                    }
                 }
             });
         }
 
         void bind(@NonNull User user) {
+            userId = user.id();
             picasso.load(user.profilePicture()).into(profilePictureImageView);
             userNameTextView.setText(user.userName());
             fullNameTextView.setText(user.fullName());
