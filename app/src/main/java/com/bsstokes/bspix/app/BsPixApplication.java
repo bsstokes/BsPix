@@ -8,11 +8,7 @@ import android.support.annotation.NonNull;
 import com.bsstokes.bspix.di.AppComponent;
 import com.bsstokes.bspix.di.ComponentFactory;
 import com.bsstokes.bspix.initializers.StethoInitializer;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
 import com.squareup.leakcanary.LeakCanary;
-
-import io.fabric.sdk.android.Fabric;
 
 public class BsPixApplication extends Application {
 
@@ -36,8 +32,6 @@ public class BsPixApplication extends Application {
             return;
         }
         LeakCanary.install(this);
-
-        Fabric.with(this, new Crashlytics(), new Answers());
 
         appComponent = ComponentFactory.create(this);
 
