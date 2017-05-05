@@ -14,7 +14,7 @@ import rx.Observable;
 
 public interface InstagramApi {
 
-    String CLIENT_ID = "dc7dc3c3e1a64726b2adf148a3e03194";
+    String CLIENT_ID = "39defbd070294609b2a085ee577671ea";
     String SCOPE = "follower_list likes public_content";
 
     HttpUrl BASE_URL = HttpUrl.parse("https://api.instagram.com/");
